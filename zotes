@@ -1,0 +1,11 @@
+so for the waiter taking order experience i want the waiters to first select a table then go be directed to the menu page where the menu will be displayed and the waiter takes order by
+adding customer prefence on a food, then add quantity if any or default is 1 then press the add button so that that menu item can be added to the order of that table, also they can search
+for a menu item using the search bar available in the page  after adding items to the table order they can click view order button top of the page at the navigation bar thenthere they can
+delete a undesired menu item in the order, also they can proceed to print the order which will print the menu item according to the printer-type field in the menu item database table and create
+a list of the menu item according to the printer type and print two different lists
+
+----
+
+
+
+----

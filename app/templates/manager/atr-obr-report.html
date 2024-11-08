@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Time Order, Bill, and Receipt Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #d6d6d6;
+            color: white;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            color: #da1515 ;
+        }
+
+        .logout-button {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 100%;
+        }
+        .section-title {
+            margin: 20px 0;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <h1>MANAGER'S DASHBOARD</h1>
+        <button class="logout-button">Logout</button>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Gourmet Bistro Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('managers.mDashboard')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#totalOrders">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ordersChart">Orders Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#billsChart">Bills Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#receiptsChart">Receipts Chart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">All-Time Restaurant Order, Bill, and Receipt Report</h2>
+        
+        <!-- Overview Cards -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Orders</h5>
+                        <p class="card-text display-4" id="totalOrders">12,345</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Bill Amount</h5>
+                        <p class="card-text display-4" id="totalBill" style="font-size: 46px;">Kes 1,234,567</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Receipts</h5>
+                        <p class="card-text display-4" id="totalReceipts">11,987</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-container mb-5">
+            <canvas id="ordersChart"></canvas>
+        </div>
+        <div class="chart-container mb-5">
+            <canvas id="billsChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="receiptsChart"></canvas>
+        </div>
+    </div>
+
+    <footer class="header">
+        <h1>&copy;  Rights Reserved, MENUFIT FOOD - Restaurant Name</h1>
+    </footer>
+
+    <script>
+        // Sample data for the charts
+        const ordersData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Number of Orders',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                data: [300, 400, 450, 500, 550, 600, 750, 800, 850, 900, 950, 1000]
+            }]
+        };
+
+        const billsData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Total Bill Amount (kes)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                data: [10000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 21000, 22000]
+            }]
+        };
+
+        const receiptsData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Total Receipts',
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1,
+                data: [290, 380, 440, 480, 530, 590, 730, 780, 840, 890, 940, 980]
+            }]
+        };
+
+        // Rendering the charts
+        window.onload = function() {
+            const ctxOrders = document.getElementById('ordersChart').getContext('2d');
+            new Chart(ctxOrders, {
+                type: 'line',
+                data: ordersData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const ctxBills = document.getElementById('billsChart').getContext('2d');
+            new Chart(ctxBills, {
+                type: 'bar',
+                data: billsData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const ctxReceipts = document.getElementById('receiptsChart').getContext('2d');
+            new Chart(ctxReceipts, {
+                type: 'line',
+                data: receiptsData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

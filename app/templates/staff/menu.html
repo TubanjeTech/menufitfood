@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Custom styles for menu items, cart dropdown, and accordion */
+        .cart-dropdown {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .accordion-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        .menu-item-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 5px 0;
+            text-align: center;
+        }
+        .menu-item-card img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            border-radius: 8px;
+        }
+        .menu-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-dropdown {
+            position: fixed;
+            left: 50%;
+            top: 20%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        /* Header Logo Styling */
+     .navbar-brand img {
+            height: 40px;
+        }
+        /* Custom toggle styling */
+        .navbar-toggler {
+            border: none;
+        }
+    </style>
+</head>
+<body >
+
+    <!-- Responsive Navbar Header -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{{url_for('static', filename='assets/logo.png')}}" alt="Logo"> <!-- Replace with your logo -->
+            </a>
+            
+            <!-- Hamburger Menu Button for Small Screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="{{ url_for('routes.smenu')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="{{ url_for('routes.aboutUs')}}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="#">Docs</a>
+                    </li>
+                    <li class="nav-item">
+                      <!-- use javascript -->
+                        <a class="nav-link text-red" href="#">Tour</a>
+                    </li>
+                    <li class="nav-item">
+                      <!-- pop modal -->
+                        <a class="nav-link text-red" href="#">Today Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue btn btn-outline-blue ms-3" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <button class="btn btn-outline-primary" id="cart-button">
+                <i class="bi bi-cart-fill"></i> Current Order
+            </button>
+            <h3 class="text-center">Serving Table Number <span id="table-number">3</span></h3>
+            <button class="btn btn-outline-secondary">
+                <div style="height: 40px; width: 40px; background-color: #007bff; border-radius: 50px; margin-left: 20%;">
+                    <i class="fas fa-microphone" style="font-size: 1.5rem; cursor: pointer; margin-top: 8px; color: #ffffff;"></i>
+                  </div>
+                  <span class="ms-3"><i class="fas fa-artificial-intelligence"></i><br>
+                ORDER AI</span> 
+            </button>
+        </div>
+
+        <!-- Cart Dropdown Section -->
+        <div id="cart-dropdown" class="cart-dropdown d-none mx-auto">
+            <h5>Current Order for Table 3</h5>
+            <div id="cart-items">
+                <!-- Dynamic order items list -->
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <span>Spaghetti</span>
+                    <input type="number" min="1" value="2" class="form-control form-control-sm w-25 text-center">
+                    <span>$12</span>
+                    <button class="btn btn-danger btn-sm">Remove</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <h6>Total: <span id="total-price">$24</span></h6>
+                <button class="btn btn-primary" id="print-order">Proceed to Print</button>
+            </div>
+        </div>
+
+        <!-- Instructions Toggle Section -->
+        <div class="my-3">
+            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#instructions">Show Instructions</button>
+            <div id="instructions" class="collapse mt-2">
+                <p>Below access the menu, select category to view menu items.</p>
+                <p>Select add to order to add an item to an order, add quantity and Preferences</p>
+                <p>Select Current order to view the undergoing order items.</p>
+                <p> Select 'Proceed to Order' to brint the order</p>
+                <p><b>Instructions on how to take an order manually without using voice...</b></p>
+                <p>--Press and Hold the Speaker icon to record your order & Print directly</p>
+                <p>How to Speak to ORDER AI</p>
+                <p>--SAY: "TABLE NUMBER eg. table 1,proceed by saying the DISH NAME then QUANTITY  ie."</p>
+                <p>--"TABLE NUMBER ZERO, 2 PIZZA MAGARITA, 3 BEER , 1 ITALIAN FRIES EXTRA DRY"</p>
+                <p>--Then releas to confirm order then print</p>
+            </div>
+        </div>
+
+        <div class="my-2">
+            <button class="btn btn-info">Proceed to Print</button>
+        </div>
+
+        <!-- Menu Items by Category -->
+        <div class="accordion" id="menu-accordion">
+            
+            <!-- Sample Category 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#category1" aria-expanded="true">
+                        Appetizers
+                    </button>
+                </h2>
+                <div id="category1" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <!-- Menu Item Card -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <!-- Repeat for other menu items -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#category2" aria-expanded="true">
+                        Ice Cream
+                    </button>
+                </h2>
+                <div id="category2" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <!-- Menu Item Card -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <!-- Repeat for other menu items -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat Accordion Item for other categories -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#category3" aria-expanded="true">
+                        PIZZA
+                    </button>
+                </h2>
+                <div id="category3" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <!-- Menu Item Card -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <!-- Repeat for other menu items -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#category4" aria-expanded="true">
+                        Pasta
+                    </button>
+                </h2>
+                <div id="category4" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <!-- Menu Item Card -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <!-- Repeat for other menu items -->
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 mb-3">
+                                <div class="menu-item-card">
+                                    <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Appetizer">
+                                    <div class="menu-actions">
+                                        <span>Spring Rolls</span>
+                                        <span>$5</span>
+                                    </div>
+                                    <input type="number" min="1" value="1" class="form-control form-control-sm my-2" placeholder="Quantity">
+                                    <input type="text" class="form-control form-control-sm my-2" placeholder="Preference (e.g., extra spicy)">
+                                    <button class="btn btn-success btn-sm w-100">Add to Order</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section style="margin-top: 20px;">
+        <footer class="footer-section">
+          <div class="footer-container">
+            <div class="footer-row">
+              <!-- Quick Links -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Quick Links</h2>
+                  <ul class="footer-links">
+                    <li><a href="#" class="footer-link-item">About Us</a></li>
+                    <li><a href="#" class="footer-link-item">Help</a></li>
+                    <li><a href="#" class="footer-link-item">Contact Us</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Vacations -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h4 class="footer-subheading">Vacations:</h4>
+                  <p class="footer-text">
+                    <span>All Sundays</span><br>
+                    <span>All Official Holidays</span>
+                  </p>
+                </div>
+              </div>
+        
+              <!-- Location -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Location</h2>
+                  <ul class="footer-contact">
+                    <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+                    <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+                    <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Business Hours -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Business Hours</h2>
+                  <p class="footer-text">
+                    <span>Monday – Friday: 9am - 8pm</span><br>
+                    <span>Saturday: 9am - 5pm</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+        
+            <div class="footer-row footer-bottom">
+              <hr class="footer-divider">
+              <p class="footer-copyright">
+                &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+              </p>
+            </div>
+          </div>
+        </footer>
+        
+      </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle Cart Dropdown
+        const cartButton = document.getElementById('cart-button');
+        const cartDropdown = document.getElementById('cart-dropdown');
+
+        cartButton.addEventListener('click', () => {
+            cartDropdown.classList.toggle('d-none');
+        });
+
+        // Additional functionality can be added for adding items to order, updating quantity, and removing items
+    </script>
+</body>
+</html>

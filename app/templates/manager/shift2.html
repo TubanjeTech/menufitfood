@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #d6d6d6;
+            color: white;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            color: #da1515 ;
+        }
+
+        .logout-button {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        /* Style the buttons that are used to open and close the accordion panel */
+        .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .accordion:hover {
+        background-color: #ccc;
+        }
+
+        /* Style the accordion panel. Note: hidden by default */
+        .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <h1>MANAGER'S DASHBOARD</h1>
+        <button class="logout-button">Logout</button>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Gourmet Bistro Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('managers.mDashboard')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Order Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bill Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Receipt Report</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center"> Date & Day Shift Two Report</h2>
+    </div>
+        <h4 style="text-align: center; justify-content: center; justify-items: center;">Accordion Section</h4>
+<div class="container my-4">
+
+        <!-- Orders Section -->
+<button class="accordion">Order Report<span style="color: #8b4a4a; margin-left: 80%;">+ Click to View</span></button>
+<div class="panel">
+    <div class="accordion-body">
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Order Number</th>
+                    <th>Table Number</th>
+                    <th>Waiter Name</th>
+                    <th>Menu Items</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1001</td>
+                    <td>5</td>
+                    <td>John Doe</td>
+                    <td>Spaghetti, Caesar Salad</td>
+                    <td>2, 1</td>
+                </tr>
+                <tr>
+                    <td>1002</td>
+                    <td>3</td>
+                    <td>Jane Smith</td>
+                    <td>Steak, Mashed Potatoes</td>
+                    <td>1, 2</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                
+<button class="accordion">Bill Report<span style="color: #8b4a4a; margin-left: 81.5%;">+ Click to View</span></button>
+<div class="panel">
+    <div class="accordion-body">
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Table Number</th>
+                    <th>Menu Item</th>
+                    <th>Quantity</th>
+                    <th>Waiter Name</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5</td>
+                    <td>Spaghetti</td>
+                    <td>2</td>
+                    <td>John Doe</td>
+                    <td>$20.00</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Steak</td>
+                    <td>1</td>
+                    <td>Jane Smith</td>
+                    <td>$25.00</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+        <!-- Receipts Section -->
+<button class="accordion">Receipt Report<span style="color: #8b4a4a; margin-left: 80%;">+ Click to View</span></button>
+
+
+<div class="panel">
+   
+        <div class="accordion-body">
+            <table class="table table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Table Number</th>
+                        <th>Menu Item</th>
+                        <th>Quantity</th>
+                        <th>Method of Payment</th>
+                        <th>Discount</th>
+                        <th>Cashier Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1001</td>
+                        <td>5</td>
+                        <td>Spaghetti</td>
+                        <td>2</td>
+                        <td>Credit Card</td>
+                        <td>$5.00</td>
+                        <td>Mary Johnson</td>
+                    </tr>
+                    <tr>
+                        <td>1002</td>
+                        <td>3</td>
+                        <td>Steak</td>
+                        <td>1</td>
+                        <td>Cash</td>
+                        <td>$0.00</td>
+                        <td>Jane Smith</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    <footer class="header">
+        <h1>&copy;  Rights Reserved, MENUFIT FOOD - Restaurant Name</h1>
+    </footer>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+    </script>
+</body>
+</html>

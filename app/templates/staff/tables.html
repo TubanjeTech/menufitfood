@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiter Dashboard - Tables</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Styling for 3D effect on tables */
+        .table-card {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px #bebebe, -5px -5px 15px #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .table-card:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 8px 20px #bebebe, -8px -8px 20px #ffffff;
+        }
+        /* Toggle button styling */
+        .toggle-btn {
+            cursor: pointer;
+            color: #007bff;
+        }
+     /* Header Logo Styling */
+     .navbar-brand img {
+            height: 40px;
+        }
+        /* Custom toggle styling */
+        .navbar-toggler {
+            border: none;
+        }
+    </style>
+</head>
+<body >
+
+  <header class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="{{url_for('static', filename='assets/logo.png')}}" alt="Logo"> <!-- Replace with your logo -->
+        </a>
+
+        <!-- Hamburger Menu Button for Small Screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-red" href="{{ url_for('routes.smenu')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-red" href="{{ url_for('routes.aboutUs')}}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-red" href="#">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-red" href="#">Tour</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-red" href="#">Today Orders</a>
+                </li>
+                
+                <!-- Dropdown for Logout -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-blue btn btn-outline-blue ms-3" href="#" id="logoutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Logout
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="logoutDropdown">
+                        <li><a class="dropdown-item" href="">My Profile</a></li>
+                        <li><a class="dropdown-item" href="">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+    <!-- Instructions Section with Toggle Button -->
+    <section class="container my-4" style="background-color: #e0e0e0;">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Usage Instructions</h2>
+            <span class="toggle-btn" onclick="toggleInstructions()">Show Instructions</span>
+        </div>
+        <div id="instructions-content" style="display: none; background-color: #bebebe; margin: 10px; padding: 20px;">
+            <p>Hi! (NAME), Ready To Seve?</p>
+            <p>Welcome to your waiter's dashboard. Below are steps for efficiently taking orders and managing tables.</p>
+            <ul>
+                <li>Select a table to start taking orders.</li>
+                <li>Select Menu Categories in the next page & add food to order.</li>
+                <li>View your orders from the top menu.</li>
+                <li>Use "Order AI" to take orders hands-free.</li>
+            </ul>
+            <button class="btn btn-secondary mt-2">Take Tour</button>
+        </div>
+    </section>
+
+    <!-- Main Action Row -->
+    <section class="container my-4" style="margin-left: 43%;">
+        <div class="row text-center">
+            <div class="col-4 d-flex align-items-center justify-content-center">
+                <div style="height: 40px; width: 40px; background-color: #007bff; border-radius: 50px;">
+                  <i class="fas fa-microphone" style="font-size: 1.5rem; cursor: pointer; margin-top: 8px; color: #ffffff;"></i>
+                </div>
+                <span class="ms-3"><i class="fas fa-artificial-intelligence"></i>Order AI</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tables Display Section -->
+    <section class="container my-4">
+        <h3 class="text-center mb-4">Restaurant Tables</h3>
+        <div class="row gy-3" style="margin-left: 100px;">
+            <!-- Example table grid item -->
+            {% for table_number in range(1, 25) %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="table-card" onclick="selectTable({{ table_number }})">
+                    Table {{ table_number }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section style="margin-top: 20px;">
+        <footer class="footer-section">
+          <div class="footer-container">
+            <div class="footer-row">
+              <!-- Quick Links -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Quick Links</h2>
+                  <ul class="footer-links">
+                    <li><a href="#" class="footer-link-item">About Us</a></li>
+                    <li><a href="#" class="footer-link-item">Help</a></li>
+                    <li><a href="#" class="footer-link-item">Contact Us</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Vacations -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h4 class="footer-subheading">Vacations:</h4>
+                  <p class="footer-text">
+                    <span>All Sundays</span><br>
+                    <span>All Official Holidays</span>
+                  </p>
+                </div>
+              </div>
+        
+              <!-- Location -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Location</h2>
+                  <ul class="footer-contact">
+                    <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+                    <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+                    <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Business Hours -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Business Hours</h2>
+                  <p class="footer-text">
+                    <span>Monday – Friday: 9am - 8pm</span><br>
+                    <span>Saturday: 9am - 5pm</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+        
+            <div class="footer-row footer-bottom">
+              <hr class="footer-divider">
+              <p class="footer-copyright">
+                &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+              </p>
+            </div>
+          </div>
+        </footer>
+        
+      </section>
+
+    <script>
+        function toggleMenu() {
+        const menu = document.getElementById('hamburger-menu');
+        menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    }
+    
+        // Toggle function for usage instructions
+        function toggleInstructions() {
+            const instructions = document.getElementById('instructions-content');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            if (instructions.style.display === 'none') {
+                instructions.style.display = 'block';
+                toggleBtn.textContent = 'Hide Instructions';
+            } else {
+                instructions.style.display = 'none';
+                toggleBtn.textContent = 'Show Instructions';
+            }
+        }
+
+        // Function for handling table selection
+        function selectTable(tableNumber) {
+            alert('Selected Table ' + tableNumber);
+            // Here you can add more functionality, such as redirecting to an order page
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

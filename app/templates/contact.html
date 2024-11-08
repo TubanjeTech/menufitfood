@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENUFITFOOD-Contact Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <!-- Stylesheets -->
+    <style>
+      
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" class="mlogo">
+    <nav>
+        <a href="/">Home</a>
+        <a href="{{ url_for('routes.restaurants') }}">Popular Restaurants</a>
+        <a href="#offer-events">Events & Offers</a>
+        <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+        <a href="#">Docs</a>
+        <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+        <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+        <a href="{{ url_for('routes.slogin')}}">Staff</a>
+    </nav>
+    <div class="call">
+      <h4>For Registration<br>Call Now! <span ><a href="tel:+250788274945" style="color: #da1515;">+254769493154</a></span></h4>
+    </div>
+    <i class="fas fa-shopping-cart cart-icon"></i> <!-- Cart Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i> <!-- Hamburger Icon -->
+    </div>
+</header>
+
+<!-- Hamburger Menu -->
+<div id="hamburger-menu" class="hamburger-menu" style="display: none;">
+  <a href="/">Home</a>
+  <a href="{{ url_for('routes.restaurants') }}">Popular Restaurants</a>
+  <a href="#offer-events">Events & Offers</a>
+  <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+  <a href="#">Docs</a>
+  <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+  <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+  <a href="{{ url_for('routes.slogin')}}">Staff</a>
+</div>
+
+<section class="background-image" style="height: 80px; margin-top: 10px;">
+  <div style="width: 80%; margin: auto;">
+    <form action="#" class="search-form" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px; margin: auto;">
+        <label style="flex-grow: 1;">
+            <input 
+                type="text" 
+                placeholder="Search for food, drinks, restaurants..." 
+                name="searched-data" 
+                style="width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #39CCCC; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); outline: none; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='#FF851B';" 
+                onblur="this.style.borderColor='#39CCCC';"
+            >
+        </label>
+        <button 
+            type="submit" 
+            style="padding: 12px 24px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #001f3f; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;"
+            onmouseover="this.style.backgroundColor='#39CCCC'; this.style.transform='scale(1.05)';" 
+            onmouseout="this.style.backgroundColor='#001f3f'; this.style.transform='scale(1)';"
+        >
+            Search
+        </button>
+    </form>
+  </div>
+</section>
+
+<section>
+    <!-- Contact Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <h2 class="w3-text-light-grey">Contact Our Administrator</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <div class="w3-section">
+        <p>
+          <i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>
+          Kigali, Rwanda.
+        </p>
+        <p>
+          <i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>
+          Phone: <a href="tel:+254769493154">+254769493154</a>
+        </p>
+        <p>
+          <i class="fa fa-whatsapp fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>
+          WhatsApp: <a href="https://wa.me/254769493154" target="_blank">+254769493154</a>
+        </p>
+        <p>
+          <i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>
+          Email: <a href="mailto:hunkieproduction1@gmail.com">menufitfood@gmail.com</a>
+        </p>
+      </div><br>
+    <p>Let's get in touch. Send us a message:</p>
+
+    <form action="" target="_blank" style="border: 2px solid #ddca79; border-radius: 10px;" method="post">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Hunkie Production" style="margin: auto; width: auto; height: 50px;">
+      <p style="width: 95%; margin: 5px; border-radius: 10px;"><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
+      <p style="width: 95%; margin: 5px; border-radius: 10px;"><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
+      <p style="width: 95%; margin: 5px; border-radius: 10px;"><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
+      <p style="width: 95%; margin: 5px; border-radius: 10px;"><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
+      <p style="width: 95%; margin: 5px; border-radius: 10px;">
+        <button class="w3-button w3-light-grey w3-padding-small" type="submit">
+          <i class="fa fa-paper-plane" style="color: #a27e2c;"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
+  <!-- End Contact Section -->
+</section>
+
+
+<section class="trusted-by" style="background-color: rgb(241, 220, 193);">
+  <h3>Trusted By</h3>
+  <div class="logo-carousel">
+    <div class="logo-track">
+      <!-- Repeat these <img> tags for each logo -->
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <!-- Duplicate logos for a continuous scrolling effect -->
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+    </div>
+  </div>
+</section>
+
+<section style="background-color: #001f3f;">
+  <div>
+    <div style="background-color: #fff; margin-top: 12px; height: 55px; width: 200px; border: 1.5px solid #da1515; border-radius: 10px; margin-left: 44%;">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Offer Image" class="mlogo" style="margin: 8px;">
+      <h1><b style="font-size: 2.5rem; color: #fff; margin-left: 40px; margin-bottom: 10px;">* * * * *</b></h1>
+    </div>
+    <h1 style="font-size: 4rem; color: #da1515; margin-left: 30%;">We Are Here For Your Nutrition</h1>
+  </div>
+</section>
+
+<section>
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-row">
+        <!-- Quick Links -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Quick Links</h2>
+            <ul class="footer-links">
+              <li><a href="#" class="footer-link-item">About Us</a></li>
+              <li><a href="#" class="footer-link-item">Help</a></li>
+              <li><a href="#" class="footer-link-item">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Vacations -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h4 class="footer-subheading">Vacations:</h4>
+            <p class="footer-text">
+              <span>All Sundays</span><br>
+              <span>All Official Holidays</span>
+            </p>
+          </div>
+        </div>
+  
+        <!-- Location -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Location</h2>
+            <ul class="footer-contact">
+              <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+              <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+              <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Business Hours -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Business Hours</h2>
+            <p class="footer-text">
+              <span>Monday – Friday: 9am - 8pm</span><br>
+              <span>Saturday: 9am - 5pm</span>
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-row footer-bottom">
+        <hr class="footer-divider">
+        <p class="footer-copyright">
+          &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+</section>
+
+
+
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('hamburger-menu');
+        menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const steps = document.querySelectorAll(".step");
+
+        function revealSteps() {
+            steps.forEach(step => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    step.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", revealSteps);
+    });
+
+</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</body>
+</html>

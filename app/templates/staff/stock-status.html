@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Status</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #d6d6d6;
+            color: white;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            color: #da1515 ;
+        }
+
+        .logout-button {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <h1>STORE MANAGER'S DASHBOARD</h1>
+        <button class="logout-button">Logout</button>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin: 10px;">
+        <a class="navbar-brand" href="#" style="margin: 10px;">Gourmet Bistro Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('routes.smDashboard')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Stock on Ready Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Stock on Prepared Products</a>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Stock Status</h1>
+
+        <!-- Ready Products Out of Stock Table -->
+        <div class="mb-5">
+            <h2 class="mb-3">Ready Products Out of Stock</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Quantity As On Previous Supply</th>
+                            <th>Date Out of Stock</th>
+                            <th>Time Out of Stock</th>
+                            <th>Update Stock Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample row; replace with dynamic content as needed -->
+                        <tr>
+                            <td>Beer</td>
+                            <td>Beverage</td>
+                            <td>90</td>
+                            <td>2024-11-01</td>
+                            <td>14:30</td>
+                            <td>
+                                <form style="margin: 10px;">
+                                    <div class="form-group">
+                                        <label for="itemquntity">Update Quantity</label>
+                                        <input type="text" class="form-control" id="itemquntity" placeholder="Enter new quantity">
+                                    </div>
+                                    <button style="font-size: x-small; border-color: blue; background-color: blue; color: #fff;">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Soda</td>
+                            <td>Beverage</td>
+                            <td>120</td>
+                            <td>2024-11-02</td>
+                            <td>11:00</td>
+                            <td>
+                                <form style="margin: 10px;">
+                                    <div class="form-group">
+                                        <label for="itemquntity">Update Quantity</label>
+                                        <input type="text" class="form-control" id="itemquntity" placeholder="Enter new quantity">
+                                    </div>
+                                    <button style="font-size: x-small; border-color: blue; background-color: blue; color: #fff;">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- Add more rows dynamically based on out-of-stock data -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Prepared Products Marked as Not Available Table -->
+        <div>
+            <h2 class="mb-3">Prepared Products Marked Not Available</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Marked By</th>
+                            <th>Date Marked Not Available</th>
+                            <th>Update Stock Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample row; replace with dynamic content as needed -->
+                        <tr>
+                            <td>Pizza</td>
+                            <td>Prepared Food</td>
+                            <td>John Doe</td>
+                            <td>2024-11-03</td>
+                            <td>
+                                <form style="margin: 10px;">
+                                    <div class="form-group">
+                                        <label for="itemquntity">Update Quantity</label>
+                                        <input type="text" class="form-control" id="itemquntity" placeholder="Enter new quantity">
+                                    </div>
+                                    <button style="font-size: x-small; border-color: blue; background-color: blue; color: #fff;">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pasta</td>
+                            <td>Prepared Food</td>
+                            <td>Jane Smith</td>
+                            <td>2024-11-04</td>
+                            <td>
+                                <form style="margin: 10px;">
+                                    <div class="form-group">
+                                        <label for="itemquntity">Update Quantity</label>
+                                        <input type="text" class="form-control" id="itemquntity" placeholder="Enter new quantity">
+                                    </div>
+                                    <button style="font-size: x-small; border-color: blue; background-color: blue; color: #fff;">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <!-- Add more rows dynamically based on not-available data -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="header">
+        <h1>&copy;  Rights Reserved, MENUFIT FOOD - Restaurant Name</h1>
+    </footer>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

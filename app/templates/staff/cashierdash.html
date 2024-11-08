@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashier Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Additional Styling */
+        .navbar-brand img {
+            height: 40px;
+        }
+        .header-section, .footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+        }
+        .button-row button {
+            margin: 10px;
+            width: 100%;
+        }
+        .table-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        .table-item {
+            position: relative;
+            width: 18%;
+            padding: 20px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .table-item:hover {
+            background-color: #cfd8dc;
+        }
+        .context-menu {
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            display: none;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .context-menu a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+        }
+        .context-menu a:hover {
+            background-color: #e0e0e0;
+        }
+        .table-grid .table-item.active .context-menu {
+            display: block;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+        }
+        .table-card {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px #bebebe, -5px -5px 15px #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .table-card:hover {
+            transform: scale(1.05);
+            box-shadow: 8px 8px 20px #bebebe, -8px -8px 20px #ffffff;
+        }
+        /* Toggle button styling */
+        .toggle-btn {
+            cursor: pointer;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Responsive Navbar Header -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='assets/logo.png')}}" alt="Logo"> <!-- Replace with your logo -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="{{ url_for('routes.smenu')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="{{ url_for('routes.aboutUs')}}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-red" href="#">Docs</a>
+                    </li>
+                    <li class="nav-item">
+                      <!-- use javascript -->
+                        <a class="nav-link text-red" href="#">Tour</a>
+                    </li>
+                    <li class="nav-item">
+                      <!-- pop modal -->
+                        <a class="nav-link text-red" href="#">Today Activity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue btn btn-outline-blue ms-3" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1 class="text-center">Accounts Control</h1>
+
+        <!-- Button Row with Horizontal Scroll for Small Screens -->
+        <div class="button-row d-flex justify-content-between flex-nowrap my-4" style="overflow-x: auto;">
+            <button class="btn btn-primary mx-2">Sample Orders</button>
+            <button class="btn btn-secondary mx-2">My Shift Activity</button>
+        </div>
+
+        <!-- Table Grid -->
+        <h2 class="text-center mt-4">Restaurant Tables</h2>
+        <div class="table-grid">
+            <!-- Each Table Item -->
+            {% for i in range(25) %}
+            <div class="table-item" id="table-{{ i }}">
+                <h3>Table {{ i + 1 }}</h3>
+                <button onclick="toggleMenu('contextMenu-{{ i }}')" class="btn btn-outline-secondary">Options</button>
+                
+                <!-- Context Menu -->
+                <div class="context-menu" id="contextMenu-{{ i }}">
+                    <a href="#">Change Table</a>
+                    <a href="#">Print Bill</a>
+                    <a href="#">Print Receipt</a>
+                    <a href="#">Check Current Order</a>
+                    <a href="#">Clear Sample Order</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+     <!-- Footer -->
+     <section style="margin-top: 20px;">
+        <footer class="footer-section">
+          <div class="footer-container">
+            <div class="footer-row">
+              <!-- Quick Links -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Quick Links</h2>
+                  <ul class="footer-links">
+                    <li><a href="#" class="footer-link-item">About Us</a></li>
+                    <li><a href="#" class="footer-link-item">Help</a></li>
+                    <li><a href="#" class="footer-link-item">Contact Us</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Vacations -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h4 class="footer-subheading">Vacations:</h4>
+                  <p class="footer-text">
+                    <span>All Sundays</span><br>
+                    <span>All Official Holidays</span>
+                  </p>
+                </div>
+              </div>
+        
+              <!-- Location -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Location</h2>
+                  <ul class="footer-contact">
+                    <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+                    <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+                    <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+                  </ul>
+                </div>
+              </div>
+        
+              <!-- Business Hours -->
+              <div class="footer-col">
+                <div class="footer-widget">
+                  <h2 class="footer-heading">Business Hours</h2>
+                  <p class="footer-text">
+                    <span>Monday – Friday: 9am - 8pm</span><br>
+                    <span>Saturday: 9am - 5pm</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+        
+            <div class="footer-row footer-bottom">
+              <hr class="footer-divider">
+              <p class="footer-copyright">
+                &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+              </p>
+            </div>
+          </div>
+        </footer>
+        
+      </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript to toggle the context menu
+        function toggleMenu(menuId) {
+            document.querySelectorAll('.context-menu').forEach(menu => menu.style.display = 'none'); // Hide others
+            const menu = document.getElementById(menuId);
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+        // Close context menus if clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.btn-outline-secondary')) {
+                document.querySelectorAll('.context-menu').forEach(menu => menu.style.display = 'none');
+            }
+        };
+    </script>
+</body>
+</html>

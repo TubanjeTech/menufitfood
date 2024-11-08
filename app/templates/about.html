@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENUFITFOOD-About Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <!-- Stylesheets -->
+    <style>
+      
+
+
+    </style>
+</head>
+<body>
+
+<header style="margin: 8px;">
+    <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" class="mlogo">
+    <nav>
+        <a href="/">Home</a>
+        <a href="{{ url_for('routes.restaurants') }}">Popular Restaurants</a>
+        <a href="#">Events & Offers</a>
+        <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+        <a href="#">Docs</a>
+        <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+        <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+        <a href="{{ url_for('routes.slogin')}}">Staff</a>
+    </nav>
+    <div class="call">
+      <h4>For Registration<br>Call Now! <span ><a href="tel:+250788274945" style="color: #da1515;">+254769493154</a></span></h4>
+    </div>
+    <i class="fas fa-shopping-cart cart-icon"></i> <!-- Cart Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i> <!-- Hamburger Icon -->
+    </div>
+</header>
+
+<!-- Hamburger Menu -->
+<div id="hamburger-menu" class="hamburger-menu" style="display: none;">
+  <a href="/">Home</a>
+  <a href="#popular">Popular Restaurants</a>
+  <a href="#offer-events">Events & Offers</a>
+  <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+  <a href="#">Docs</a>
+  <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+  <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+  <a href="{{ url_for('routes.slogin')}}">Staff</a>
+</div>
+
+<section class="background-image" style="height: 80px; margin-top: 10px; margin: 8px;">
+  <div style="width: 80%; margin: auto;">
+    <form action="#" class="search-form" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px; margin: auto;">
+        <label style="flex-grow: 1;">
+            <input 
+                type="text" 
+                placeholder="Search for food, drinks, restaurants..." 
+                name="searched-data" 
+                style="width: 100%; padding: 12px; font-size: 1rem; border: 2px solid #39CCCC; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); outline: none; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='#FF851B';" 
+                onblur="this.style.borderColor='#39CCCC';"
+            >
+        </label>
+        <button 
+            type="submit" 
+            style="padding: 12px 24px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #001f3f; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;"
+            onmouseover="this.style.backgroundColor='#39CCCC'; this.style.transform='scale(1.05)';" 
+            onmouseout="this.style.backgroundColor='#001f3f'; this.style.transform='scale(1)';"
+        >
+            Search
+        </button>
+    </form>
+  </div>
+</section>
+
+<section>
+  <h2><h1 style="color: #da1515; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 3rem; margin-bottom: 10px; text-align: center">MENU FIT FOOD - About Us</span></h1></h2>
+</section>
+<section class="background-image" style="margin: 8px; width: 100%;">
+  <!-- Blurred background layer -->
+  <div class="blur-layer" style="background-image: url('{{ url_for('static', filename='assets/bg_1.jpg') }}');"></div>
+  
+  <!-- Clear content layer -->
+  <div class="container-hero" style="background-color: rgba(38, 36, 36, 0.4); transform: translate(-50%, -50%);">
+    <div style="width: 90%; margin: auto; margin-bottom: 10px; margin-top: 50px;">
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        Welcome to MenuFit Food, your ultimate solution for seamless restaurant management and an exceptional online food ordering experience. At MenuFit Food, we blend innovation with a deep understanding of the food industry, helping restaurants streamline their operations while making it easier for customers to order their favorite meals with just a few clicks.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        Our flagship offering, the MenuFit Food Ordering Platform, is designed to provide a comprehensive, user-friendly gateway to discover and order delicious meals from a variety of restaurants. From daily specials to curated meal combos, MenuFit Food makes it easy to find and enjoy top-quality food from local favorites, all with a few taps.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        MenuFit Food is more than just a food ordering site; it’s a complete management tool for restaurants of all sizes. With our platform, restaurant owners can efficiently manage menus, track orders in real-time, handle inventory, and even gain insights to enhance their business growth. For customers, MenuFit Food offers a seamless and enjoyable way to explore menus, place orders, and experience great food delivered directly to them.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        We prioritize privacy and security, ensuring that all transactions and data shared on MenuFit Food are protected. By engaging with our platform, both restaurants and customers agree to our robust Privacy Policy and Terms of Service, allowing everyone to feel secure as they enjoy their experience.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        For restaurants aiming to expand their reach and enhance customer engagement, MenuFit Food offers a suite of services including digital marketing, menu design, and tailored customer engagement strategies. Our dedicated support team is here to help every step of the way, ensuring that your brand and offerings shine in the competitive food market.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+       MenuFit Food is a thriving community for food lovers and restaurateurs alike. Through our social engagement features, customers can leave reviews, share their favorite dishes, and connect with local eateries. At Savory Bites, we believe that every meal is a chance to create connections and foster community.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        For businesses seeking to stand out, MenuFit Food provides tailored advertising options to help boost visibility and connect with customers who are passionate about great food. With precision marketing tools, we ensure your restaurant reaches the right audience and achieves new heights of success.
+    </p>
+    
+    <p style="text-align: center; margin: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); color: #fff;">
+        Thank you for choosing MenuFit Food as your partner in restaurant management and online food ordering. As we continue to drive innovation in the culinary world, we invite you to explore, connect, and grow with us in this vibrant food ecosystem. Welcome to MenuFit Food – where passion for food meets excellence in technology, and your culinary journey begins.
+    </p>
+    </div>
+  </div>
+</section>
+
+<!-- <section style="background-color: azure; margin: 8px; background-image: url('{{ url_for('static', filename='assets/bg_1.jpg') }}'); filter: blur(2px); -webkit-filter: blur(1px); z-index-1;">
+    <h2><h1 style="color: #da1515; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 3rem; margin-bottom: 10px; text-align: center">MENU FIT FOOD</span></h1></h2>
+    <div style="width: 90%; margin: auto;">
+      <p style="text-align: center; margin: 30px;">
+        Welcome to Savory Bites, your ultimate solution for seamless restaurant management and an exceptional online food ordering experience. At Savory Bites, we blend innovation with a deep understanding of the food industry, helping restaurants streamline their operations while making it easier for customers to order their favorite meals with just a few clicks.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        Our flagship offering, the Savory Bites Ordering Platform, is designed to provide a comprehensive, user-friendly gateway to discover and order delicious meals from a variety of restaurants. From daily specials to curated meal combos, Savory Bites makes it easy to find and enjoy top-quality food from local favorites, all with a few taps.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        Savory Bites is more than just a food ordering site; it’s a complete management tool for restaurants of all sizes. With our platform, restaurant owners can efficiently manage menus, track orders in real-time, handle inventory, and even gain insights to enhance their business growth. For customers, Savory Bites offers a seamless and enjoyable way to explore menus, place orders, and experience great food delivered directly to them.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        We prioritize privacy and security, ensuring that all transactions and data shared on Savory Bites are protected. By engaging with our platform, both restaurants and customers agree to our robust Privacy Policy and Terms of Service, allowing everyone to feel secure as they enjoy their experience.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        For restaurants aiming to expand their reach and enhance customer engagement, Savory Bites offers a suite of services including digital marketing, menu design, and tailored customer engagement strategies. Our dedicated support team is here to help every step of the way, ensuring that your brand and offerings shine in the competitive food market.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        Savory Bites is a thriving community for food lovers and restaurateurs alike. Through our social engagement features, customers can leave reviews, share their favorite dishes, and connect with local eateries. At Savory Bites, we believe that every meal is a chance to create connections and foster community.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        For businesses seeking to stand out, Savory Bites provides tailored advertising options to help boost visibility and connect with customers who are passionate about great food. With precision marketing tools, we ensure your restaurant reaches the right audience and achieves new heights of success.
+    </p>
+    
+    <p style="text-align: center; margin: 30px;">
+        Thank you for choosing Savory Bites as your partner in restaurant management and online food ordering. As we continue to drive innovation in the culinary world, we invite you to explore, connect, and grow with us in this vibrant food ecosystem. Welcome to Savory Bites – where passion for food meets excellence in technology, and your culinary journey begins.
+    </p>
+    </div>
+
+</section> -->
+
+<section style="background-color: aliceblue; margin: 8px;">
+  <h2 style="color: #da1515; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 2rem; margin-bottom: 10px; text-align: center">WHY PARTNER WITH US</span></h2>
+    <div class="card-list">
+        <a href="#" class="card-item">
+            <!-- <img src="{{ url_for('static', filename='assets/data.jpg') }}"  alt="Educational and Informative Content"> -->
+
+            <span class="developer" style="margin-left: 35%;"> Convenience</span>
+            <p>
+              For Restaurants: <b>Simplifies order handling, inventory management, and customer engagement through a centralized platform, saving time and reducing administrative work.</b>
+              For Customers: <b>Provides an easy-to-use interface for browsing menus, placing orders, and tracking deliveries, making the food-ordering experience smooth and hassle-free.
+              </b>
+            </p>
+        </a>
+        <a href="#" class="card-item">
+            <!-- <img src="{{ url_for('static', filename='images/scalability.jpg') }}" alt="Adaptability and Scalability"> -->
+            <span class="designer" style="margin-left: 35%;"> Community Connection</span>
+            <p>
+              For Restaurants: <b>Enables direct engagement with local food lovers, allowing them to build brand loyalty and connect with the community through events, promotions, and feedback.</b>
+              For Customers: <b>Offers opportunities to support local eateries, interact with other food enthusiasts, and participate in community events, strengthening their connection to local food culture.
+              </b>              
+            </p>
+        </a>
+        <a href="#" class="card-item">
+            <!-- <img src="{{ url_for('static', filename='images/security.jpg') }}" alt="Security and Privacy"> -->
+            <span class="editor" style="margin-left: 35%;"> Transparency</span>
+            <p>
+              For Restaurants: <b>Provides insights into customer preferences, order analytics, and business performance, allowing for informed decision-making and continuous improvement.</b>
+              For Customers: <b>Offers real-time updates on order status, transparent pricing, reviews, and health information about each restaurant, building trust and confidence in their dining choices.
+              </b>              
+            </p>
+        </a>
+
+        <a href="#" class="card-item">
+            <!-- <img src="{{ url_for('static', filename='images/quality.jpg') }}" alt="Quality Services"> -->
+            <span class="editor" style="margin-left: 35%;">  Personalization</span>
+            <p>
+              For Restaurants: <b>Facilitates targeted marketing and personalized offerings based on customer behavior, helping restaurants provide more tailored experiences and drive repeat business.</b>
+              For Customers: <b>Delivers personalized recommendations and exclusive deals based on their order history and preferences, enhancing satisfaction and encouraging frequent use.
+              </b>
+            </p>
+        </a>
+
+        <a href="#" class="card-item">
+          <!-- <img src="{{ url_for('static', filename='images/quality.jpg') }}" alt="Quality Services"> -->
+          <span class="editor" style="margin-left: 35%;">  Personalization</span>
+          <p>
+            For Restaurants: <b>Facilitates targeted marketing and personalized offerings based on customer behavior, helping restaurants provide more tailored experiences and drive repeat business.</b>
+            For Customers: <b>Delivers personalized recommendations and exclusive deals based on their order history and preferences, enhancing satisfaction and encouraging frequent use.
+            </b>
+          </p>
+      </a>
+
+      <a href="#" class="card-item">
+        <!-- <img src="{{ url_for('static', filename='images/quality.jpg') }}" alt="Quality Services"> -->
+        <span class="editor" style="margin-left: 35%;">  Personalization</span>
+        <p>
+          For Restaurants: <b>Facilitates targeted marketing and personalized offerings based on customer behavior, helping restaurants provide more tailored experiences and drive repeat business.</b>
+          For Customers: <b>Delivers personalized recommendations and exclusive deals based on their order history and preferences, enhancing satisfaction and encouraging frequent use.
+          </b>
+        </p>
+    </a>
+    </div>
+</section>
+
+<section style="margin: 8px; margin-bottom: 0; background-color: aliceblue;">
+  <h2 style="color: #da1515; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 2rem; margin-bottom: 10px; text-align: center">CONTROLS AND OPTIONS</span></h2>
+    <div style="margin-top: 20px; margin-bottom: 40px; text-align: center;">
+      <button class="tablink" onclick="openCity('website', this, '#001f3f')" id="defaultOpen">GET YOUR RESTAURANT ONLINE</button>
+      <button class="tablink" onclick="openCity('ads', this, '#39CCCC')" style="margin-left: 10px; margin-right: 10px;">ORDER & TABLE RESERVATION</button>
+      <button class="tablink" onclick="openCity('graphics', this, '#FF851B')">MESSAGE ADMIN</button>
+    </div>
+    <div id="website" class="tabcontent">
+      <h1>GET YOUR RESTAURANT ONLINE</h1>
+      <p>To make sure your Restaurant(s) move at the pace of Technology, create a MENUFITFOOD account as an online Restaurant webpage as your virtual Restaurant Management System.</p>
+      <li>Action <a href=""  style="color: #da1515;"> <b>Register my Restaurant</b></a></li>
+    </div>
+
+    <div id="ads" class="tabcontent">
+      <h1>ORDER YOUR BEST MEAL OR RESERVE A TABLE</h1>
+      <p>Offer a comfortable Online Experience for Food Ordering & Table Reservation</p>
+      <li>Action <a href=""  style="color: #da1515;"> <b>make order or reserve a table</b></a></li>
+    </div>
+
+    <div id="graphics" class="tabcontent">
+      <h1>MESSAGE THE ADMIN</h1>
+      <p>MESSAGING FORM GOES HERE</p>
+    </div>
+</section>
+
+<section class="trusted-by" style="background-color: rgb(202, 201, 200); height: 100px; margin: 8px;">
+  <h2 style="color: #da1515; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 2rem; margin-bottom: 10px; text-align: center">TRUSTED BY</span></h2>
+
+  <div class="logo-carousel">
+    <div class="logo-track">
+      <!-- Repeat these <img> tags for each logo -->
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <!-- Duplicate logos for a continuous scrolling effect -->
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 1" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 2" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 3" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 4" class="logo">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo 5" class="logo">
+    </div>
+  </div>
+</section>
+
+<section class="offers-events-section" id="offer-events" style="background-color: #39CCCC;">
+  <!-- Offers Carousel -->
+  <div class="carousel-row" >
+    <div style="height: 20px;"></div>
+    <!-- <h2 class="section-title">Latest Offers</h2> -->
+    <h3 style="text-align: center; font-size: 2rem;"><b>Latest Offers</b></h3>
+    <div class="swiper offers-swiper">
+      <div class="swiper-wrapper">
+        <!-- Offer Item 1 -->
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/restaurant.png') }}" alt="Offer pic" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <div class="swiper-slide offer-item">
+          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Offer</button>
+        </div>
+        <!-- Add more offer items as needed -->
+      </div>
+      <!-- Pagination and navigation for Offers Carousel -->
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+  <div style="height: 10px; background-color: #fff;"></div>
+  <!-- Events Carousel -->
+  <div class="carousel-row" style="margin-top: 10px; margin-bottom: 20px;">
+    <!-- <h2 class="section-title">Upcoming Events</h2> -->
+    <div style="height: 20px;"></div>
+    <!-- <h2 class="section-title">Latest Offers</h2> -->
+    <h3 style="text-align: center; font-size: 2rem;"><b>Upcoming Events</b></h3>
+    <div class="swiper events-swiper">
+      <div class="swiper-wrapper">
+        <!-- Event Item 1 -->
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Sushi</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Pizza</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on African Meals</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Fresh Wine</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/restaurant.png') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on All ice Cream</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <div class="swiper-slide event-item">
+          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
+          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
+          <button class="carousel-button">View Event</button>
+        </div>
+        <!-- Add more event items as needed -->
+      </div>
+      <!-- Pagination and navigation for Events Carousel -->
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+</section>
+
+<section style="background-color: #001f3f; margin: 8px;">
+  <div>
+    <div style="background-color: #fff; margin-top: 20px; height: 55px; width: 200px; border: 1.5px solid #da1515; border-radius: 10px; margin-left: 44%;">
+      <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Offer Image" class="mlogo" style="margin: 8px; box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+      <h1><b style="font-size: 2.5rem; color: #fff; margin-left: 40px; margin-bottom: 10px;">* * * * *</b></h1>
+    </div>
+    <h1 style="font-size: 4rem; color: #da1515; margin-left: 30%; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">We Are Here For Your Nutrition</h1>
+  </div>
+</section>
+
+<section style="margin: 8px;">
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-row">
+        <!-- Quick Links -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Quick Links</h2>
+            <ul class="footer-links">
+              <li><a href="#" class="footer-link-item">About Us</a></li>
+              <li><a href="#" class="footer-link-item">Help</a></li>
+              <li><a href="#" class="footer-link-item">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Vacations -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h4 class="footer-subheading">Vacations:</h4>
+            <p class="footer-text">
+              <span>All Sundays</span><br>
+              <span>All Official Holidays</span>
+            </p>
+          </div>
+        </div>
+  
+        <!-- Location -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Location</h2>
+            <ul class="footer-contact">
+              <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+              <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+              <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Business Hours -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Business Hours</h2>
+            <p class="footer-text">
+              <span>Monday – Friday: 9am - 8pm</span><br>
+              <span>Saturday: 9am - 5pm</span>
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-row footer-bottom">
+        <hr class="footer-divider">
+        <p class="footer-copyright">
+          &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+</section>
+
+
+
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('hamburger-menu');
+        menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const steps = document.querySelectorAll(".step");
+
+        function revealSteps() {
+            steps.forEach(step => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    step.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", revealSteps);
+    });
+
+        function openCity(cityName,elmnt,color) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+          }
+          document.getElementById(cityName).style.display = "block";
+          elmnt.style.backgroundColor = color;
+
+        }
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+    // Initialize Swiper for Offers
+    new Swiper('.offers-swiper', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+    });
+
+    // Initialize Swiper for Events
+    new Swiper('.events-swiper', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+    });
+  });
+</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</body>
+</html>
