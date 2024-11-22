@@ -7,7 +7,7 @@ from wtforms.validators import InputRequired, Email, EqualTo
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from flask_wtf.file import FileAllowed, FileRequired
 
-from app.models import Account
+from app.models import Account, Restaurants
 
 class SALoginForm(FlaskForm):
     username = StringField('Enter Username to login', validators=[InputRequired()])
@@ -92,43 +92,48 @@ class EditRestaurantForm(FlaskForm):
     submit = SubmitField('Edit Restaurant')
 
 class StaffForm(FlaskForm):
+    
+    restaurant_id = SelectField('Select Restaurant', coerce=int, validators=[DataRequired()])
+
     staff_name = StringField('Staff Name', validators=[
         DataRequired(), Length(max=255)
     ])
-    staff_restaurant = StringField('Restaurant', validators=[
-        DataRequired(), Length(max=255)
-    ])
+    
+    
     email = StringField('Email', validators=[
         DataRequired(), Email(), Length(max=255)
     ])
+
     staff_phone = StringField('Phone Number', validators=[
         DataRequired(), Length(max=255),
         Regexp(r'^\+?[1-9]\d{1,14}$', message="Invalid phone number format.")
     ])
+
     password = PasswordField('Password', validators=[
         DataRequired(), Length(min=6)
     ])
+    
     status = SelectField('Status', choices=[
         ('active', 'Active'),
         ('inactive', 'Inactive')
     ], validators=[DataRequired()])
+
     role = SelectField('Role', choices=[
-        ('manager', 'Manager'),
+        ('Stock_manager', 'Stock Manager'),
         ('waiter', 'Waiter'),
-        ('chef', 'Chef')
+        ('cashier', 'Cashier')
     ], validators=[DataRequired()])
-    pin = StringField('PIN', validators=[
-        DataRequired(), Length(min=4, max=8),
-        Regexp(r'^\d+$', message="PIN must be numeric.")
-    ])
+
     submit = SubmitField('Add Staff')
+
+    def __init__(self, *args, **kwargs):
+        super(StaffForm, self).__init__(*args, **kwargs)
+        # Populate the restaurant options with all restaurants from the Restaurant model
+        self.restaurant_id.choices = [(restaurants.id, restaurants.rest_name) for restaurants in Restaurants.query.all()]
 
 
 class EditStaffForm(FlaskForm):
     staff_name = StringField('Staff Name', validators=[
-        DataRequired(), Length(max=255)
-    ])
-    staff_restaurant = StringField('Restaurant', validators=[
         DataRequired(), Length(max=255)
     ])
     email = StringField('Email', validators=[
@@ -146,14 +151,10 @@ class EditStaffForm(FlaskForm):
         ('inactive', 'Inactive')
     ], validators=[DataRequired()])
     role = SelectField('Role', choices=[
-        ('manager', 'Manager'),
+        ('stock_manager', 'Stock Manager'),
         ('waiter', 'Waiter'),
-        ('chef', 'Chef')
+        ('cashier', 'Cashier')
     ], validators=[DataRequired()])
-    pin = StringField('PIN', validators=[
-        DataRequired(), Length(min=4, max=8),
-        Regexp(r'^\d+$', message="PIN must be numeric.")
-    ])
     submit = SubmitField('Edit Staff')
 
 class AddDepartmentForm(FlaskForm):

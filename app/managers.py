@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, app, render_template, redirect, request, flash, current_app, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from app.models import Account, Restaurants
+from app.models import Account, Restaurants, Staff
 from . import db
 from .forms import (AddCatForm, AddDCatForm, AddDepartmentForm, CreateRestaurantForm,
                     EditAccountForm, AccountForm, EditCattForm, EditDCattForm,
@@ -242,9 +242,66 @@ def delete_restaurant(restaurant_id):
 
 @managers.route('/staff', methods=['GET', 'POST'])
 def staff():
-    forms = StaffForm()
+    staff = Staff.query.all()
+    form = StaffForm()
+    forms = EditStaffForm()
+
+    if form.validate_on_submit():
+        # Extract data from the form
+        restaurant_id = form.restaurant_id.data
+        staff_name = form.staff_name.data
+        email = form.email.data
+        staff_phone = form.staff_phone.data
+        password = form.password.data
+        status = form.status.data
+        role = form.role.data
+
+        # Hash the password
+        hashed_password = generate_password_hash(password)
+
+        # Create a new Staff instance
+        new_staff = Staff(
+            restaurant_id = restaurant_id,
+            staff_name = staff_name,
+            email = email,
+            staff_phone = staff_phone,
+            password=hashed_password,
+            status="Active",
+            role = role
+        )
+
+        # Save the new staff to the database
+        try:
+            db.session.add(new_staff)
+            db.session.commit()
+            flash("Staff successfully created!", "success")
+            return redirect(url_for('managers.mDashboard'))
+        
+        except Exception as e:
+            db.session.rollback()
+            flash(f"An error occurred: {str(e)}", "danger")
+    
+    return render_template('manager/staff.html', form=form, forms=forms, staff=staff)
+
+@managers.route('/edit_staff/<int:staff_id>', methods=['GET', 'POST'])
+def edit_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
     form = EditStaffForm()
-    return render_template('manager/staff.html', form=form, forms=forms)
+    return render_template('manager/deps.html', form=form, staff=staff)
+
+@managers.route('/delete_staff/<int:staff_id>', methods=['POST'])
+def delete_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
+    try:
+        db.session.delete(staff)
+        db.session.commit()
+        flash('Staff deleted successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error deleting staff.', 'danger')
+    
+    return redirect(url_for('managers.mDashboard'))
+
 
 @managers.route('/deps', methods=['GET', 'POST'])
 def deps():

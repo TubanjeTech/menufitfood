@@ -115,7 +115,6 @@ class Staff(db.Model):
     created_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
     status = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(255), nullable=False)
-    pin = db.Column(db.Text, nullable=False)
 
     # Add the relationship to the Restaurants model
     restaurant = db.relationship('Restaurants', back_populates='staff')
