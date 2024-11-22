@@ -98,14 +98,25 @@ def edit_account(account_id):
     return render_template('manager/edit_acc.html', form=form, account=account)
 
 
-@managers.route('/delete_account/<int:id>', methods=['DELETE'])
-def delete_account(id):
-    account = Account.query.get(id)
-    if account:
+@managers.route('/delete_account/<int:account_id>', methods=['POST'])
+def delete_account(account_id):
+    # Fetch the account to delete using the account_id
+    account = Account.query.get_or_404(account_id)
+    
+    try:
+        # Delete the account from the database
         db.session.delete(account)
         db.session.commit()
-        return '', 204  # No content, successfully deleted
-    return 'Account not found', 404
+        
+        flash(f"Account '{account.account_name}' has been deleted successfully!", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash("An error occurred while trying to delete the account.", "danger")
+        print(f"Error deleting account: {e}")
+    
+    # Redirect to the dashboard or account list page
+    return redirect(url_for('managers.mDashboard'))
+
 
 @managers.route('/crudrest', methods=['GET', 'POST'])
 def crudrest():

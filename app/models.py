@@ -31,22 +31,27 @@ class User(db.Model, UserMixin):
 class Account(db.Model):
     __tablename__ = 'account'
     
-    id = db.Column(Integer, primary_key=True)  
-    account_name = db.Column(String(255), nullable=False)  
-    owner = db.Column(String(255), nullable=False)  
-    phone = db.Column(String(20), nullable=False)  
-    email = db.Column(String(255), nullable=False, unique=True)  
-    location = db.Column(String(255), nullable=False)  
-    password = db.Column(String(255), nullable=False)  
-    status = db.Column(String(255), nullable=False)
-    last_login = db.Column(DateTime, nullable=True)  
-    created_at = db.Column(DateTime, default=datetime.utcnow, nullable=False)  
+    id = db.Column(db.Integer, primary_key=True)  
+    account_name = db.Column(db.String(255), nullable=False)  
+    owner = db.Column(db.String(255), nullable=False)  
+    phone = db.Column(db.String(20), nullable=False)  
+    email = db.Column(db.String(255), nullable=False, unique=True)  
+    location = db.Column(db.String(255), nullable=False)  
+    password = db.Column(db.String(255), nullable=False)  
+    status = db.Column(db.String(255), nullable=False)
+    last_login = db.Column(db.DateTime, nullable=True)  
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)  
+    
+    # Relationship with Restaurants (One-to-many: one account can have many restaurants)
+    restaurants = db.relationship('Restaurants', back_populates='account', lazy=True)
     
     def __repr__(self):
         return f'<Account {self.account_name}>'
 
+
 class Restaurants(db.Model):
     __tablename__ = 'restaurants'
+    
     id = db.Column(db.Integer, primary_key=True)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     rest_name = db.Column(db.String(100), nullable=False)
@@ -61,8 +66,12 @@ class Restaurants(db.Model):
     visited = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
-    # Establishing the one-to-many relationship with Staff
+    # Relationship to the Account model (Many-to-one: each restaurant belongs to one account)
+    account = db.relationship('Account', back_populates='restaurants')
+
+    # Relationship with Staff (one-to-many: one restaurant can have many staff members)
     staff = db.relationship('Staff', back_populates='restaurant', lazy=True)
+
     
 class RestaurantType(db.Model):
     __tablename__ = 'restaurant_type'

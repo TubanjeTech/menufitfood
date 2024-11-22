@@ -51,7 +51,8 @@ class EditAccountForm(FlaskForm):
 
 class CreateRestaurantForm(FlaskForm):
     rest_name = StringField('Restaurant Name', validators=[DataRequired(), Length(max=100)])
-    description = TextAreaField('Description', validators=[DataRequired()])
+    menu_type = TextAreaField('Describe your restaurants menu type', validators=[DataRequired()])
+    description = TextAreaField('Description of your restaurant', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     logo = FileField('Restaurant Logo', validators=[
@@ -61,7 +62,6 @@ class CreateRestaurantForm(FlaskForm):
     country_of_res = StringField('Country of Residence', validators=[DataRequired(), Length(max=100)])
     state_or_prov = StringField('State/Province', validators=[DataRequired(), Length(max=150)])
     res_district = StringField('District', validators=[DataRequired(), Length(max=150)])
-    visited = IntegerField('Visited Count', default=0)
     
     submit = SubmitField('Create Restaurant')
 
