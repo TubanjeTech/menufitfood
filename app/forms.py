@@ -53,7 +53,7 @@ class EditAccountForm(FlaskForm):
 
 class CreateRestaurantForm(FlaskForm):
     rest_name = StringField('Restaurant Name', validators=[DataRequired(), Length(max=100)])
-    menu_type = TextAreaField('Describe your restaurants menu type', validators=[DataRequired()])
+    menu_type = TextAreaField('Describe your restaurant\'s menu type', validators=[DataRequired()])
     description = TextAreaField('Description of your restaurant', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
     logo = FileField('Restaurant Logo', validators=[
@@ -64,26 +64,24 @@ class CreateRestaurantForm(FlaskForm):
     state_or_prov = StringField('State/Province', validators=[DataRequired(), Length(max=150)])
     res_district = StringField('District', validators=[DataRequired(), Length(max=150)])
     account_id = SelectField('Account', coerce=int, validators=[DataRequired()])
+
+    submit = SubmitField('Create Restaurant')
+
     def __init__(self, *args, **kwargs):
         super(CreateRestaurantForm, self).__init__(*args, **kwargs)
-        
         # Populate the account options with all accounts from the Account model
         self.account_id.choices = [(account.id, account.account_name) for account in Account.query.all()]
-    
-    submit = SubmitField('Create Restaurant')
 
 class EditRestaurantForm(FlaskForm):
     rest_name = StringField('Restaurant Name', validators=[DataRequired(), Length(max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
     logo = FileField('Restaurant Logo', validators=[
-        FileRequired(),
-        FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
-    ])
+    FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
+        ])
     country_of_res = StringField('Country of Residence', validators=[DataRequired(), Length(max=100)])
     state_or_prov = StringField('State/Province', validators=[DataRequired(), Length(max=150)])
     res_district = StringField('District', validators=[DataRequired(), Length(max=150)])
-    visited = IntegerField('Visited Count', default=0)
     
     submit = SubmitField('Edit Restaurant')
 

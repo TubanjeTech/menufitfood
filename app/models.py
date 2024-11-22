@@ -53,16 +53,16 @@ class Restaurants(db.Model):
     __tablename__ = 'restaurants'
     
     id = db.Column(db.Integer, primary_key=True)
-    account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     rest_name = db.Column(db.String(100), nullable=False)
-    menu_type = db.Column(db.Text, nullable=False)
+    menu_type = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    logo = db.Column(db.String(200), nullable=False)
+    logo = db.Column(db.String(200), nullable=True)
     country_of_res = db.Column(db.String(100), nullable=False)
     state_or_prov = db.Column(db.String(150), nullable=False)
     res_district = db.Column(db.String(150), nullable=False)
-    visited = db.Column(db.Integer, nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    visited = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
     # Relationship to the Account model (Many-to-one: each restaurant belongs to one account)

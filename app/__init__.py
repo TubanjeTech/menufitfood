@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -16,10 +17,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:37472396@localhost/letsgomff'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDERS'] = {
-        'rest': 'aidem/uploaded/rest_media',
-        'menu': 'aidem/uploaded/menu_media',
-        'staff': 'aidem/uploaded/staff_images',
+        'rest': os.path.join('static', 'uploads', 'rest_media'),
+        'menu': os.path.join('static', 'uploads', 'menu_media'),
+        'staff': os.path.join('static', 'uploads', 'staff_images'),
     }
+
 
     # Initialize extensions with the app
     db.init_app(app)
