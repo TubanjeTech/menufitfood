@@ -173,14 +173,105 @@
 <!-- Updated Restaurant Table with Edit Button -->
 
     <h3 class="text-center">Added Restaurants</h3>
+    <style>
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+    
+        .card-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .card-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    
+        .card-details {
+            padding: 1rem;
+            font-family: Arial, sans-serif;
+        }
+    
+        .restaurant-name {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+    
+        .card-details p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+    
+        .card-actions {
+            padding: 1rem;
+            border-top: 1px solid #ddd;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+    
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn-edit {
+            background-color: #007bff;
+        }
+    
+        .btn-edit:hover {
+            background-color: #0056b3;
+        }
+    
+        .btn-delete {
+            background-color: #dc3545;
+            border: none;
+            cursor: pointer;
+        }
+    
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+    
+        .no-restaurants {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 2rem;
+        }
+    </style>
+    
     <div class="card-list">
         {% for restaurant in restaurants %}
         <div class="card-item">
-            <img src="{{ url_for('static', filename='assets/banner.jpg') }}" alt="{{ restaurant.rest_name }}">
+            <img src="{{ url_for('static', filename=restaurant.logo if restaurant.logo else 'assets/banner.jpg') }}" 
+                 alt="{{ restaurant.rest_name }}">
             <div class="card-details">
                 <span class="restaurant-name">{{ restaurant.rest_name }}</span>
                 <p>{{ restaurant.description }}</p>
                 <p><strong>Location:</strong> {{ restaurant.state_or_prov }}, {{ restaurant.country_of_res }}</p>
+                <p><strong>District:</strong> {{ restaurant.res_district }}</p>
                 <p><strong>Contact:</strong> {{ restaurant.email }}</p>
             </div>
             <div class="card-actions">
@@ -191,70 +282,10 @@
             </div>
         </div>
         {% else %}
-        <p>no restaurants added</p>
+        <p class="no-restaurants">No restaurants added yet.</p>
         {% endfor %}
     </div>
     
-    <style>
-    .card-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    
-    .card-item {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 300px;
-        overflow: hidden;
-        transition: transform 0.3s;
-    }
-    
-    .card-item img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-    
-    .card-details {
-        padding: 20px;
-    }
-    
-    .restaurant-name {
-        font-size: 20px;
-        font-weight: bold;
-    }
-    
-    .card-actions {
-        padding: 10px 20px;
-        background-color: #f9f9f9;
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .btn {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 4px;
-        text-decoration: none;
-        color: #fff;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    
-    .btn-edit {
-        background-color: #4CAF50;
-    }
-    
-    .btn-delete {
-        background-color: #f44336;
-    }
-    
-    .card-item:hover {
-        transform: scale(1.05);
-    }
-    </style>
     
 
 

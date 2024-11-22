@@ -16,12 +16,17 @@ def create_app():
     app.config['SECRET_KEY'] = '187199737472396ekm&&65782fyfvd87tg8g8w7tg8wgg8g44ujb987ybd09nghf12fhg34vv5hvhjj86vgcvg%&vgc8yvh8y7frd4xc8ltc'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:37472396@localhost/letsgomff'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Upload folders configuration
     app.config['UPLOAD_FOLDERS'] = {
-        'rest': os.path.join('static', 'uploads', 'rest_media'),
-        'menu': os.path.join('static', 'uploads', 'menu_media'),
-        'staff': os.path.join('static', 'uploads', 'staff_images'),
+        'rest': os.path.join(app.static_folder, 'uploads', 'rest_images'),
+        'menu': os.path.join(app.static_folder, 'uploads', 'menu_media'),
+        'staff': os.path.join(app.static_folder, 'uploads', 'staff_images'),
     }
 
+    # Ensure upload folders exist
+    for folder in app.config['UPLOAD_FOLDERS'].values():
+        if not os.path.exists(folder):
+            os.makedirs(folder)
 
     # Initialize extensions with the app
     db.init_app(app)

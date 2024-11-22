@@ -127,23 +127,23 @@ def crudrest():
         logo_path = None  # Default to None if no logo is uploaded
 
         if logo:
-            print(f"Logo file: {logo.filename}")
             filename = secure_filename(logo.filename)  # Secure the file name
-            upload_folder = current_app.config['UPLOAD_FOLDERS']['rest']  # Get the folder path from config
-
-            # Ensure the upload folder exists inside static/uploads/
+            upload_folder = os.path.join(current_app.static_folder, 'uploads', 'rest_images')  # Ensure path is inside static
             if not os.path.exists(upload_folder):
                 os.makedirs(upload_folder)  # Create the folder if it doesn't exist
             
-            logo_path = os.path.join(upload_folder, filename)  # Define the full file path
-            logo.save(logo_path)  # Save the file to the folder
+            logo_path = os.path.join(upload_folder, filename)  # Full path for saving
+            logo.save(logo_path)  # Save the file
+            
+            # Store the relative path to the logo in the database
+            logo_path = f'uploads/rest_images/{filename}'
 
         # Create a new restaurant entry in the database
         new_restaurant = Restaurants(
             rest_name=rest_name,
             description=description,
             email=email,
-            logo=filename if logo else None,  # Save the file name to the logo field
+            logo=logo_path,  # Save relative path
             country_of_res=country_of_res,
             state_or_prov=state_or_prov,
             res_district=res_district,
@@ -158,6 +158,7 @@ def crudrest():
         return redirect(url_for('managers.crudrest'))  # Redirect back to the same page
 
     return render_template('manager/crudrest.html', form=form, restaurants=restaurants)
+
 
 @managers.route('/edit_restaurant/<int:restaurant_id>', methods=['GET', 'POST'])
 def edit_restaurant(restaurant_id):
