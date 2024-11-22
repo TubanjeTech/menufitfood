@@ -7,6 +7,8 @@ from wtforms.validators import InputRequired, Email, EqualTo
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from flask_wtf.file import FileAllowed, FileRequired
 
+from app.models import Account
+
 class SALoginForm(FlaskForm):
     username = StringField('Enter Username to login', validators=[InputRequired()])
     password = PasswordField('Password', validators=[InputRequired()])
@@ -54,7 +56,6 @@ class CreateRestaurantForm(FlaskForm):
     menu_type = TextAreaField('Describe your restaurants menu type', validators=[DataRequired()])
     description = TextAreaField('Description of your restaurant', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     logo = FileField('Restaurant Logo', validators=[
         FileRequired(),
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
@@ -62,6 +63,12 @@ class CreateRestaurantForm(FlaskForm):
     country_of_res = StringField('Country of Residence', validators=[DataRequired(), Length(max=100)])
     state_or_prov = StringField('State/Province', validators=[DataRequired(), Length(max=150)])
     res_district = StringField('District', validators=[DataRequired(), Length(max=150)])
+    account_id = SelectField('Account', coerce=int, validators=[DataRequired()])
+    def __init__(self, *args, **kwargs):
+        super(CreateRestaurantForm, self).__init__(*args, **kwargs)
+        
+        # Populate the account options with all accounts from the Account model
+        self.account_id.choices = [(account.id, account.account_name) for account in Account.query.all()]
     
     submit = SubmitField('Create Restaurant')
 
@@ -69,7 +76,6 @@ class EditRestaurantForm(FlaskForm):
     rest_name = StringField('Restaurant Name', validators=[DataRequired(), Length(max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     logo = FileField('Restaurant Logo', validators=[
         FileRequired(),
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
