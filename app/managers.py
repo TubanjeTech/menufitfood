@@ -74,35 +74,29 @@ def mDashboard():
 
 @managers.route('/edit_account/<int:account_id>', methods=['GET', 'POST'])
 def edit_account(account_id):
-    # Get the account to edit using the provided account_id
+    # Fetch the account or return 404 if not found
     account = Account.query.get_or_404(account_id)
 
-    # Initialize the form
-    form = EditAccountForm()
+    # Initialize the form, pre-populated with current account data
+    form = EditAccountForm(obj=account)
 
-    # Pre-populate the form with the current data
-    if request.method == 'POST' and form.validate_on_submit():
-        # Update the account with new values from the form
-        account.account_name = form.account_name.data
-        account.owner = form.owner.data
-        account.phone = form.phone.data
-        account.email = form.email.data
-        account.location = form.location.data
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            # Update the account with new values from the form
+            form.populate_obj(account)
 
-        # Commit the changes to the database
-        db.session.commit()
+            try:
+                # Commit changes to the database
+                db.session.commit()
+                flash('Account updated successfully!', 'success')
+                return redirect(url_for('managers.mDashboard'))  # Adjust URL if needed
+            except Exception as e:
+                db.session.rollback()
+                flash(f'Error updating account: {e}', 'danger')
 
-        flash('Account updated successfully!', 'success')
-        return redirect(url_for('managers.mdashboard', account_id=account.id))  # Redirect to the account details page
-
-    # If it's a GET request, or if form validation fails, populate the form with current data
-    form.account_name.data = account.account_name
-    form.owner.data = account.owner
-    form.phone.data = account.phone
-    form.email.data = account.email
-    form.location.data = account.location
-
+    # Render the edit account form
     return render_template('manager/edit_acc.html', form=form, account=account)
+
 
 @managers.route('/delete_account/<int:id>', methods=['DELETE'])
 def delete_account(id):

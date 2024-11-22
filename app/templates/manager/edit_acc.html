@@ -23,10 +23,9 @@
         {% endif %}
         {% endwith %}
 
-        
-        <form method="POST" action="{{ url_for('managers.edit_account', account_id=account.id) }}" style="margin: 20px;">
+        <form method="POST" style="margin: 20px;">
             {{ form.hidden_tag() }}
-        
+
             <div class="form-group">
                 <label for="account_name">Account Name</label>
                 {{ form.account_name(class="form-control", id="account_name") }}
@@ -38,7 +37,7 @@
                     </ul>
                 {% endif %}
             </div>
-        
+
             <div class="form-group">
                 <label for="owner">Owner</label>
                 {{ form.owner(class="form-control", id="owner") }}
@@ -50,7 +49,7 @@
                     </ul>
                 {% endif %}
             </div>
-        
+
             <div class="form-group">
                 <label for="phone">Phone</label>
                 {{ form.phone(class="form-control", id="phone") }}
@@ -62,7 +61,7 @@
                     </ul>
                 {% endif %}
             </div>
-        
+
             <div class="form-group">
                 <label for="email">Email</label>
                 {{ form.email(class="form-control", id="email") }}
@@ -74,7 +73,7 @@
                     </ul>
                 {% endif %}
             </div>
-        
+
             <div class="form-group">
                 <label for="location">Location</label>
                 {{ form.location(class="form-control", id="location") }}
@@ -86,9 +85,7 @@
                     </ul>
                 {% endif %}
             </div>
-        
-            
-        
+
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>

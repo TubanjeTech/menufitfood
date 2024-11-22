@@ -46,7 +46,6 @@ class EditAccountForm(FlaskForm):
     phone = StringField('Phone', validators=[DataRequired(), Length(max=15)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
     location = StringField('Location', validators=[DataRequired(), Length(max=200)])
-    status = StringField('Status', validators=[DataRequired(), Length(max=50)])
 
     submit = SubmitField('Save Changes')
 
