@@ -58,6 +58,7 @@ class Restaurants(db.Model):
     description = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(100), nullable=False)
     logo = db.Column(db.String(200), nullable=True)
+    restaurant_profile_image = db.Column(db.String(200), nullable=True)
     country_of_res = db.Column(db.String(100), nullable=False)
     state_or_prov = db.Column(db.String(150), nullable=False)
     res_district = db.Column(db.String(150), nullable=False)

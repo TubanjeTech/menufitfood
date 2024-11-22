@@ -138,12 +138,29 @@ def crudrest():
             # Store the relative path to the logo in the database
             logo_path = f'uploads/rest_images/{filename}'
 
+        # Handle file upload for restaurant profile image
+        profile_image = form.restaurant_profile_image.data
+        profile_image_path = None  # Default to None if no profile image is uploaded
+
+        if profile_image:
+            profile_filename = secure_filename(profile_image.filename)  # Secure the file name
+            profile_upload_folder = os.path.join(current_app.static_folder, 'uploads', 'rest_profile_images')  # Separate folder
+            if not os.path.exists(profile_upload_folder):
+                os.makedirs(profile_upload_folder)  # Create the folder if it doesn't exist
+            
+            profile_image_path = os.path.join(profile_upload_folder, profile_filename)  # Full path for saving
+            profile_image.save(profile_image_path)  # Save the file
+            
+            # Store the relative path to the profile image in the database
+            profile_image_path = f'uploads/rest_profile_images/{profile_filename}'
+
         # Create a new restaurant entry in the database
         new_restaurant = Restaurants(
             rest_name=rest_name,
             description=description,
             email=email,
             logo=logo_path,  # Save relative path
+            restaurant_profile_image=profile_image_path,
             country_of_res=country_of_res,
             state_or_prov=state_or_prov,
             res_district=res_district,
@@ -181,6 +198,21 @@ def edit_restaurant(restaurant_id):
 
             # Update the restaurant's logo field with the new file name
             restaurant.logo = logo_filename
+
+        if form.restaurant_profile_image.data:
+            # Secure the file name
+            restaurant_profile_image_filename = secure_filename(form.restaurant_profile_image.data.filename)
+            upload_folder = current_app.config['UPLOAD_FOLDERS']['rest']  # Get the 'rest' path defined in the config
+
+            # Ensure the upload folder exists inside static/uploads/
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)  # Create the folder if it doesn't exist
+            
+            restaurant_profile_image_path = os.path.join(upload_folder, restaurant_profile_image_filename)  # Define the full file path
+            form.restaurant_profile_image.data.save(restaurant_profile_image_path)  # Save the uploaded file to the specified path
+
+            # Update the restaurant's logo field with the new file name
+            restaurant.restaurant_profile_image = restaurant_profile_image_filename
 
         # Update other restaurant details (excluding logo, which is already handled)
         form.populate_obj(restaurant)

@@ -60,6 +60,9 @@ class CreateRestaurantForm(FlaskForm):
         FileRequired(),
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
     ])
+    restaurant_profile_image= FileField('Restaurant Profile image', validators=[
+    FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
+        ])
     country_of_res = StringField('Country of Residence', validators=[DataRequired(), Length(max=100)])
     state_or_prov = StringField('State/Province', validators=[DataRequired(), Length(max=150)])
     res_district = StringField('District', validators=[DataRequired(), Length(max=150)])
@@ -77,6 +80,9 @@ class EditRestaurantForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=100)])
     logo = FileField('Restaurant Logo', validators=[
+    FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
+        ])
+    restaurant_profile_image= FileField('Restaurant Profile image', validators=[
     FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
         ])
     country_of_res = StringField('Country of Residence', validators=[DataRequired(), Length(max=100)])
