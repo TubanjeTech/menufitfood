@@ -3,15 +3,16 @@ import time
 from dotenv import load_dotenv
 from flask import Blueprint, app, current_app, render_template, redirect, request, send_from_directory, url_for, flash
 from flask_login import login_user, logout_user, login_required, UserMixin, current_user
-from .managerconf import managers_login_manager
-from .models import Owner
+# from .managerconf import managers_login_manager
+# from .models import Owner
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from app.models import Account
 from . import db
 from flask import current_app
-from .forms import SALoginForm
+from .forms import AddCatForm, AddDCatForm, AddDepartmentForm, CreateRestaurantForm, EditAccountForm, AccountForm, EditCattForm, EditDCattForm, EditDepartmentForm, EditRestaurantForm, EditStaffForm, SALoginForm, StaffForm
 
-load_dotenv() 
 
 managers = Blueprint('managers', __name__)
 
@@ -31,12 +32,120 @@ def mlogin():
 
 @managers.route('/mdashboard', methods=['GET', 'POST'])
 def mDashboard():
-    return render_template('/manager/dashboard.html')
+    accounts = Account.query.all()
+
+    form = AccountForm()
+    forms = EditAccountForm()
+
+    if form.validate_on_submit():  # Check if form is submitted and validated
+        # Extract data from the form
+        account_name = form.account_name.data
+        owner = form.owner.data
+        phone = form.phone.data
+        email = form.email.data
+        location = form.location.data
+        password = form.password.data
+
+        # Hash the password
+        hashed_password = generate_password_hash(password)
+
+        # Create a new Account instance
+        new_account = Account(
+            account_name=account_name,
+            owner=owner,
+            phone=phone,
+            email=email,
+            location=location,
+            password=hashed_password,
+            status="Active"  # You can set a default status or manage dynamically
+        )
+
+        # Save the new account to the database
+        try:
+            db.session.add(new_account)
+            db.session.commit()
+            flash("Account successfully created!", "success")
+            return redirect(url_for('managers.mDashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"An error occurred: {str(e)}", "danger")
+
+    return render_template('manager/dashboard.html', form=form, forms=forms, accounts=accounts)
+
+@managers.route('/edit_account/<int:account_id>', methods=['GET', 'POST'])
+def edit_account(account_id):
+    # Get the account to edit using the provided account_id
+    account = Account.query.get_or_404(account_id)
+
+    # Initialize the form
+    form = EditAccountForm()
+
+    # Pre-populate the form with the current data
+    if request.method == 'POST' and form.validate_on_submit():
+        # Update the account with new values from the form
+        account.account_name = form.account_name.data
+        account.owner = form.owner.data
+        account.phone = form.phone.data
+        account.email = form.email.data
+        account.location = form.location.data
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        flash('Account updated successfully!', 'success')
+        return redirect(url_for('managers.mdashboard', account_id=account.id))  # Redirect to the account details page
+
+    # If it's a GET request, or if form validation fails, populate the form with current data
+    form.account_name.data = account.account_name
+    form.owner.data = account.owner
+    form.phone.data = account.phone
+    form.email.data = account.email
+    form.location.data = account.location
+
+    return render_template('manager/edit_acc.html', form=form, account=account)
+
+@managers.route('/delete_account/<int:id>', methods=['DELETE'])
+def delete_account(id):
+    account = Account.query.get(id)
+    if account:
+        db.session.delete(account)
+        db.session.commit()
+        return '', 204  # No content, successfully deleted
+    return 'Account not found', 404
+
+@managers.route('/crudrest', methods=['GET', 'POST'])
+def crudrest():
+    form = CreateRestaurantForm()
+    return render_template('manager/crudrest.html',form=form)
+
+@managers.route('/staff', methods=['GET', 'POST'])
+def staff():
+    forms = StaffForm()
+    form = EditStaffForm()
+    return render_template('manager/staff.html',form=form, forms=forms)
+
+@managers.route('/deps', methods=['GET', 'POST'])
+def deps():
+    forms = AddDepartmentForm()
+    form = EditDepartmentForm()
+    return render_template('manager/deps.html',form=form, forms=forms)
+
+@managers.route('/cat', methods=['GET', 'POST'])
+def cat():
+    forms = AddCatForm()
+    form = EditCattForm()
+    return render_template('manager/cat.html',form=form, forms=forms)
+
+@managers.route('/dcat', methods=['GET', 'POST'])
+def dcat():
+    forms = AddDCatForm()
+    form = EditDCattForm()
+    return render_template('manager/dcat.html',form=form, forms=forms)
 
 
 @managers.route('/manager-obr-report', methods=['GET', 'POST'])
 def lsd_obr_report():
-    return render_template('/manager/lsd-obr-report.html')
+    return render_template('manager/lsd-obr-report.html')
 
 @managers.route('/atr-obr-report', methods=['POST', 'GET'])
 def atr_obr_report():

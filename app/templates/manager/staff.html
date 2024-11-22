@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #d6d6d6;
+            color: white;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            color: #da1515 ;
+        }
+
+        .logout-button {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container {
+            margin-bottom: 70px;
+            margin-top: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Take full viewport height */
+        }
+
+        form {
+            width: 100%;
+            max-width: 600px; /* Adjust the width as needed */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <h1>MANAGER'S DASHBOARD</h1>
+        <button class="logout-button">Logout</button>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Gourmet Bistro Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('managers.mDashboard')}}">Home</a>
+                </li>
+                <!-- Add Restaurant link to open modal -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#addStaffModal">Add Staff</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Modal for Adding Restaurant -->
+    <div class="modal fade" id="addStaffModal" tabindex="-1" role="dialog" aria-labelledby="addSatffModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStaffModalLabel">Create Staff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to create a restaurant -->
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div>
+                            {{ form.staff_name.label }}: {{ form.staff_name(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.staff_restaurant.label }}: {{ form.staff_restaurant(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.email.label }}: {{ form.email(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.staff_phone.label }}: {{ form.staff_phone(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.password.label }}: {{ form.password(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.status.label }}: {{ form.status(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.role.label }}: {{ form.role(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.pin.label }}: {{ form.pin(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Table to display added restaurants -->
+
+    <!-- Edit Restaurant Modal -->
+<div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStaffModalLabel">Edit Restaurant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.staff_name.label(class="form-label") }}
+                        {{ form.staff_name(class="form-control", value="John Doe") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.staff_restaurant.label(class="form-label") }}
+                        {{ form.staff_restaurant(class="form-control", value="Sunrise Cafe") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", value="john.doe@example.com") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.staff_phone.label(class="form-label") }}
+                        {{ form.staff_phone(class="form-control", value="+123456789") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.status.label(class="form-label") }}
+                        {{ form.status(class="form-control", value="Active") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.role.label(class="form-label") }}
+                        {{ form.role(class="form-control", value="Manager") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.pin.label(class="form-label") }}
+                        {{ form.pin(class="form-control", value="1234") }}
+                    </div>
+                    <div class="text-end">
+                        {{ form.submit(class="btn btn-primary") }}
+                        <a href="" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Updated Restaurant Table with Edit Button -->
+
+    <h3 class="text-center">Added Staff</h3>
+    <table class="table table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Restaurant</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dummy Data -->
+            <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>Sunrise Cafe</td>
+                <td>john.doe@example.com</td>
+                <td>+123456789</td>
+                <td>Active</td>
+                <td>Manager</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editStaffModal" >Edit</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td>Moonlight Diner</td>
+                <td>jane.smith@example.com</td>
+                <td>+987654321</td>
+                <td>Inactive</td>
+                <td>Chef</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editStaffModal" >Edit</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+<script>
+    // Populate the edit modal with existing restaurant information
+    function populateEditModal(name, email, country, description, logo, visited) {
+        document.getElementById('edit_rest_name').value = name;
+        document.getElementById('edit_email').value = email;
+        document.getElementById('edit_country_of_res').value = country;
+        document.getElementById('edit_description').value = description;
+        document.getElementById('edit_logo').value = ''; // Logo is a file input
+        document.getElementById('edit_visited').value = visited;
+    }
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <footer class="header">
+        <h1>&copy;  Rights Reserved, MENUFIT FOOD - Restaurant Name</h1>
+    </footer>
+</body>
+</html>

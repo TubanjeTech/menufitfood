@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MENUFITFOOD- Manager Dashboard</title>
+    <title>MENUFITFOOD- Super User Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -310,7 +310,6 @@
             }
         }
         
-        
     </style>
 </head>
 <body>
@@ -320,13 +319,13 @@
         <div class="header-logo">
             <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
         </div>
-        <h1>MANAGER'S DASHBOARD</h1>
+        <h1>PLATFORM ADMIN DASHBOARD</h1>
         <button class="logout-button">Logout</button>
     </header>
 
     <!-- Media-Text Section -->
-    <section class="media-text">
-        <img src="{{ url_for('static', filename='assets/rest1.jpg') }}" alt="Dashboard Image" style="height: 400px;">
+    <!-- <section class="media-text">
+        <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Dashboard Image" style="height: 400px;">
         <div class="media-text-content">
             <div class="notifications-container">
                 <div class="notifications-header" onclick="toggleNotifications()">
@@ -358,31 +357,51 @@
             data-toggle="modal" data-target="#modal15">
             My Profile</button>
         </div>
-    </section>
+    </section> -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
 
     <section>
         <div class="dashboard-container">
-            <h1 class="dashboard-title">Admin Control Panel</h1>
+            <h1 class="dashboard-title">Administrator Control Panel</h1>
             
             <div class="widget-grid">
                 <div href="" class="widget-item">
                     <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Manage Users">
                     <h2 class="widget-title">Account Information & Details</h2>
-                    <p class="widget-description">You can manage your restaurant webpage here.</p>
+                    <p class="widget-description">Manage restaurant owner's accounts here.</p>
                     <div class="button-row">
-                        <a class="widget-button"  data-toggle="modal" data-target="#modal1">Check Profile Card</a>
-                        <a class="widget-button"  data-toggle="modal" data-target="#modal2">Edit Profile Information</a>
+                        <a class="widget-button"  data-toggle="modal" data-target="#modal1">Add Account</a>
+                        <a class="widget-button"  data-toggle="modal" data-target="#modal2">view Accounts</a>
                     </div>
                 </div>
                 
-                
-                    <div class="widget-item">
+                <div href="" class="widget-item">
+                    <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Manage Users">
+                    <h2 class="widget-title">Restaurant Information & Details</h2>
+                    <p class="widget-description">You can manage restaurant owners accounts here.</p>
+                    <div class="button-row">
+                        <a href="{{ url_for('managers.crudrest')}}" class="widget-button" >Add Restaurant</a>
+                        <a class="widget-button"  data-toggle="modal" data-target="#modal22">view Restaurant</a>
+                    </div>
+                </div>
+
+                    <!-- <div class="widget-item">
                         <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Manage Reservation">
                         <h2 class="widget-title">Order, Bill & Receipt Report</h2>
                         <p class="widget-description">You can manage your restaurant order, bills & receipt report here.</p>
                         <div class="button-row d-flex gap-2">
-                            
-                            <!-- Dropdown Button -->
                             <div class="dropdown">
                                 <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Today's Report
@@ -396,84 +415,63 @@
                                     </li>
                                 </ul>
                             </div>
-                
-                            <!-- Other Buttons -->
                             <a href="{{ url_for('managers.lsd_obr_report')}}" class="widget-button btn btn-secondary">Last 7 Days Report</a>
                             <a href="{{ url_for('managers.atr_obr_report')}}" class="widget-button btn btn-secondary">All Time Report</a>
                         </div>
+                    </div> -->
+                
+                    <div class="widget-item">
+                        <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Add Admin">
+                        <h2 class="widget-title">Add Staff</h2>
+                        <p class="widget-description">Manage add new staff here.</p>
+                        <div class="button-row">
+                            <a href="{{ url_for('managers.staff')}}" class="widget-button">Staff Information</a>
+                        </div>
                     </div>
-                
-                
+
                 <div href="" class="widget-item">
                     <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Manage Orders">
-                    <h2 class="widget-title">My Restaurant's Menu</h2>
-                    <p class="widget-description">You can manage your restaurant food orders.</p>
+                    <h2 class="widget-title">Restaurant's Menu</h2>
+                    <p class="widget-description">Manage restaurant menu & departments.</p>
                     <div class="button-row">
                         <div class="dropdown">
                             <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Menu Categories
+                                Categories
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal4" target="_blank">View Categories</a>
+                                    <a class="dropdown-item" href="{{ url_for('managers.cat') }}" target="_blank">Item Categories</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal3" target="_blank">Add New Category</a>
+                                    <a class="dropdown-item" href="{{ url_for('managers.dcat') }}" target="_blank">Dish Categories</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="dropdown">
-                            <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="{{ url_for('managers.deps')}}" class="widget-button btn btn-primary " >
                                 Departments
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal8" target="_blank">View Departments</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal8" target="_blank">Add New Department</a>
-                                </li>
-                            </ul>
+                            
                         </div>
                         <div class="dropdown">
                             <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Menu Items
+                                Menu dishes
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li>
                                     <a class="dropdown-item" href="{{ url_for('managers.myMenu') }}" target="_blank">View Menu</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal5" target="_blank">Add New Menu Item</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal5" target="_blank">Add New Dish</a>
                                 </li>
                             </ul>
                         </div>
-                        <a class="widget-button" href="{{ url_for('managers.stockStatus')}}">Stock Status</a>
+                        <!-- <a class="widget-button" href="#">Stock Status</a> -->
+                        
                     </div>
                 </div>
 
-                <div href="" class="widget-item">
-                    <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Customer Queries">
-                    <h2 class="widget-title">Supply Report</h2>
-                    <p class="widget-description">View your Supplies and Supplier Report.</p>
-                    <div class="button-row">
-                        <a href="{{ url_for('managers.crnt_sup')}}" class="widget-button">Latest Supply</a>
-                        <div class="dropdown">
-                            <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Add/ Edit Supply
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li>
-                                    <a class="dropdown-item"  data-toggle="modal" data-target="#modal6" target="_blank">Add Supply</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal6" target="_blank">Edit Supply</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <a class="widget-button">Supply History</a>
-                    </div>
-                </div>
+                
         </div>
     
     </section>
@@ -484,51 +482,55 @@
                 
                 <div href="" class="widget-item">
                     <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Go to Your Website">
-                    <h2 class="widget-title">Expense and Revenue Analytics</h2>
-                    <p class="widget-description">See your Stock expenditure and Revenue.</p>
+                    <h2 class="widget-title">Sales and Revenue Analytics</h2>
+                    <p class="widget-description">See your sales and Revenue.</p>
                     <div class="button-row">
                         <a class="widget-button">Check Analytics</a>
                     </div>
                 </div>
-    
-                <div class="widget-item">
-                    <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Add Admin">
-                    <h2 class="widget-title">Add Staff</h2>
-                    <p class="widget-description">You can manage add new staff here.</p>
-                    <div class="button-row">
-                        <a class="widget-button">Add New Staff</a>
-                        <a class="widget-button">Staff Information</a>
-                    </div>
-                </div>
+
 
                 <div href="" class="widget-item">
                     <img src="{{ url_for('static', filename='assets/mng.png') }}" alt="Add Admin">
-                    <h2 class="widget-title">Manage Events & Offers</h2>
+                    <h2 class="widget-title">Manage Expenses & Items</h2>
                     <p class="widget-description">You can post, edit and delete events and offers, check applications and respond.</p>
                     <div class="button-row">
                         <div class="dropdown">
                             <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Make Post
+                                Add Expense or Item
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal4" target="_blank">Post an Event</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal4" target="_blank">Expense</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal3" target="_blank">Post an Offer</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal3" target="_blank">Item</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="dropdown">
                             <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Post Stats
+                                Nutrition and Recipe
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <li>
-                                    <a class="dropdown-item" href="{{ url_for('managers.myMenu') }}" target="_blank">Event Statistics</a>
+                                    <a class="dropdown-item" href="{{ url_for('managers.myMenu') }}" target="_blank">Nutrition</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal5" target="_blank">Offer Statistics</a>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal5" target="_blank">Recipes</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="widget-button btn btn-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                View Records on Expenses & Items
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('managers.myMenu') }}" target="_blank">Expense</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal5" target="_blank">Items</a>
                                 </li>
                             </ul>
                         </div>
@@ -564,82 +566,303 @@
     <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <div class="modal-header" style="background-color: #007BFF; color: white; border-bottom: 2px solid #0056b3;">
+                    <h5 class="modal-title" id="profileCardModalLabel">Add Account Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: white;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color: #f4f7fc; padding: 20px;">
+    
+                    <form method="POST">
+                        {{ form.hidden_tag() }}  <!-- CSRF Token -->
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label for="account_name" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.account_name.label }}</label>
+                            <br>
+                            {{ form.account_name(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.account_name.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.account_name.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+    
+                        <div style="margin-bottom: 15px;">
+                            <label for="owner" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.owner.label }}</label>
+                            <br>
+                            {{ form.owner(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.owner.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.owner.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+    
+                        <div style="margin-bottom: 15px;">
+                            <label for="phone" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.phone.label }}</label>
+                            <br>
+                            {{ form.phone(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.phone.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.phone.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label for="email" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.email.label }}</label>
+                            <br>
+                            {{ form.email(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.email.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.email.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+    
+    
+                        <div style="margin-bottom: 15px;">
+                            <label for="location" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.location.label }}</label>
+                            <br>
+                            {{ form.location(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.location.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.location.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+    
+                        <div style="margin-bottom: 15px;">
+                            <label for="password" style="font-weight: 600; font-size: 1rem; color: #333;">{{ form.password.label }}</label>
+                            <br>
+                            {{ form.password(class="form-control", style="width: 100%; padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc;") }}
+                            {% if form.password.errors %}
+                                <div style="color: red; font-size: 0.9rem; margin-top: 5px;">
+                                    <ul>
+                                        {% for error in form.password.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+    
+                        <div style="text-align: center;">
+                            {{ form.submit(class="btn btn-primary", style="background-color: #007BFF; padding: 10px 20px; font-size: 1rem; border-radius: 5px; border: none; color: white; cursor: pointer;") }}
+                        </div>
+                    </form>  
+                
+                </div>
+                <div class="modal-footer" style="border-top: 2px solid #ccc;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="padding: 10px 20px; font-size: 1rem; border-radius: 5px; background-color: #f0f0f0; border: 1px solid #ccc;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileCardModalLabel">Restaurant Profile Information</h5>
+                    <h5 class="modal-title" id="editProfileModalLabel">Account Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div>
-                    <img src="{{ url_for('static', filename='assets/rest1.jpg') }}" alt="Restaurant Image" style="margin: auto; margin: 5px; width: 488px; height: 400px;">
-                </div>
-                <div class="modal-body" style="background-color: rgb(196, 196, 196);">
-                    <div style="background-color: aqua; border-radius: 10px; box-shadow: rgb(196, 196, 196);">
-                        <h3 style="text-align: center; padding: 20px;">Gourmet Bistro</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-map-marker-alt" style="margin: 8px;"></i></span> <b>Location:</b> 123 Culinary St, Food City</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-utensils" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Cuisine:</b> Italian, French, Asian</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-tables" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Tables:</b> 100 tables</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-info-circle" style="margin: 8px;"></i></span> <b>Description:</b> Gourmet Bistro is a fine dining restaurant offering a unique culinary experience with exquisite dishes crafted by world-class chefs.</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-phone" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Contact:</b> (123) 456-7890</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-envelope" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Email:</b> contact@gourmetbistro.com</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-th-list" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Menu Categories:</b> 10</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Menu Items:</b> 300 dishes</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-users" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span> <b>Staff:</b> 10 Professional staff</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="modal-body">
+                    <!-- Responsive Table -->
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Owner</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for account in accounts %}
+                            <tr>
+                                <td>{{ account.account_name }}</td>
+                                <td>{{ account.owner }}</td>
+                                <td>{{ account.phone }}</td>
+                                <td>{{ account.email }}</td>
+                                <td>{{ account.location }}</td>
+                                <td>{{ account.status }}</td>
+                                <td>
+                                    <!-- Edit Button -->
+                                    <a href="{{ url_for('managers.edit_account', account_id=account.id) }}" class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
+                                    
+                                    <!-- Delete Button -->
+                                    <a class="btn btn-danger btn-sm" onclick="deleteAccount({{ account.id }})">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 <div class="modal-footer">
+                    <!-- Button to save changes after editing -->
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2Label" aria-hidden="true">
+    
+
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all alert messages
+            var alerts = document.querySelectorAll('#flashed-messages .alert');
+            
+            // Loop through each alert and set a timeout to hide it after 3 seconds
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.style.transition = "opacity 1s";
+                    alert.style.opacity = 0;
+                    setTimeout(function() {
+                        alert.remove();  // Remove the alert after fade-out
+                    }, 1000);  // Wait for fade-out to finish before removing it
+                }, 3000);  // 3 seconds delay before fading out
+            });
+        });
+    
+
+    // Function to handle delete action
+    // Function to handle deleting an account
+    function deleteAccount(accountId) {
+        // Use an AJAX call or a form submission to delete the account
+        if (confirm('Are you sure you want to delete this account?')) {
+            // Example of using an AJAX request to delete
+            fetch(`/delete_account/${accountId}`, {
+                method: 'DELETE',
+            }).then(response => {
+                if (response.ok) {
+                    alert('Account deleted');
+                    // Optionally reload the page or update the UI to reflect the changes
+                    window.location.reload();
+                } else {
+                    alert('Failed to delete account');
+                }
+            });
+        }
+    }
+
+
+    </script>
+   
+
+    <div class="modal fade" id="modal18" tabindex="-1" role="dialog" aria-labelledby="modal18Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile Information</h5>
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Account Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+            
                         <div class="form-group">
-                            <label for="restaurantName">Restaurant Name</label>
-                            <input type="text" class="form-control" id="restaurantName" placeholder="Enter restaurant name">
+                            <label for="account_name">Account Name</label>
+                            {{ form.account_name(class="form-control", id="account_name") }}
+                            {% if form.account_name.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.account_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
+            
                         <div class="form-group">
-                            <label for="restaurantLocation">Location</label>
-                            <input type="text" class="form-control" id="restaurantLocation" placeholder="Enter location">
+                            <label for="owner">Owner</label>
+                            {{ form.owner(class="form-control", id="owner") }}
+                            {% if form.owner.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.owner.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
+            
                         <div class="form-group">
-                            <label for="restaurantCuisine">Cuisine</label>
-                            <input type="text" class="form-control" id="restaurantCuisine" placeholder="Enter cuisine types">
+                            <label for="phone">Phone</label>
+                            {{ form.phone(class="form-control", id="phone") }}
+                            {% if form.phone.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.phone.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
+            
                         <div class="form-group">
-                            <label for="restaurantDescription">Description</label>
-                            <textarea class="form-control" id="restaurantDescription" rows="3" placeholder="Enter description"></textarea>
+                            <label for="email">Email</label>
+                            {{ form.email(class="form-control", id="email") }}
+                            {% if form.email.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.email.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
+            
                         <div class="form-group">
-                            <label for="restaurantContact">Contact Number</label>
-                            <input type="text" class="form-control" id="restaurantContact" placeholder="Enter contact number">
+                            <label for="location">Location</label>
+                            {{ form.location(class="form-control", id="location") }}
+                            {% if form.location.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.location.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
-                        <div class="form-group">
-                            <label for="restaurantEmail">Email</label>
-                            <input type="email" class="form-control" id="restaurantEmail" placeholder="Enter email">
-                        </div>
+            
+            
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-primary">Save Account</button>
                 </div>
             </div>
         </div>
@@ -649,30 +872,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileCardModalLabel">Restaurant Profile Information</h5>
+                    <h5 class="modal-title" id="profileCardModalLabel">Create Restaurant Profile Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div>
-                    <img src="{{ url_for('static', filename='assets/rest1.jpg') }}" alt="Restaurant Image" style="margin: auto; margin: 5px; width: 488px; height: 400px;">
-                </div>
                 <div class="modal-body" style="background-color: rgb(196, 196, 196);">
-                    <div style="background-color: aqua; border-radius: 10px; box-shadow: rgb(196, 196, 196);">
-                        <h3 style="text-align: center; padding: 20px;">Restaurant Name Menu Categories</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-                            <p><span style="width: 50px; background-color: #fff; border-radius: 10px;"><i class="fas fa-concierge-bell" style="margin: 8px; margin-top: 12px; margin-bottom: 12px;"></i></span>Category name</p>
-
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -705,6 +911,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="modal5" tabindex="-1" role="dialog" aria-labelledby="modal5Label" aria-hidden="true">
         <div class="modal-dialog" role="document">

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Header styling */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #d6d6d6;
+            color: white;
+            width: 100%;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 24px;
+            color: #da1515 ;
+        }
+
+        .logout-button {
+            background-color: #ff4d4d;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container {
+            margin-bottom: 70px;
+            margin-top: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Take full viewport height */
+        }
+
+        form {
+            width: 100%;
+            max-width: 600px; /* Adjust the width as needed */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        </div>
+        <h1>MANAGER'S DASHBOARD</h1>
+        <button class="logout-button">Logout</button>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Gourmet Bistro Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('managers.mDashboard')}}">Home</a>
+                </li>
+                <!-- Add Restaurant link to open modal -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#addRestaurantModal">Add Restaurant</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Modal for Adding Restaurant -->
+    <div class="modal fade" id="addRestaurantModal" tabindex="-1" role="dialog" aria-labelledby="addRestaurantModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRestaurantModalLabel">Create Restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to create a restaurant -->
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+
+                        <div class="form-group">
+                            <label for="rest_name">Restaurant Name</label>
+                            {{ form.rest_name(class="form-control", id="rest_name") }}
+                            {% if form.rest_name.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.rest_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            {{ form.description(class="form-control", id="description") }}
+                            {% if form.description.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.description.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            {{ form.email(class="form-control", id="email") }}
+                            {% if form.email.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.email.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            {{ form.password(class="form-control", id="password") }}
+                            {% if form.password.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.password.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logo">Restaurant Logo</label>
+                            {{ form.logo(class="form-control-file", id="logo") }}
+                            {% if form.logo.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.logo.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country_of_res">Country of Residence</label>
+                            {{ form.country_of_res(class="form-control", id="country_of_res") }}
+                            {% if form.country_of_res.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.country_of_res.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="state_or_prov">State/Province</label>
+                            {{ form.state_or_prov(class="form-control", id="state_or_prov") }}
+                            {% if form.state_or_prov.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.state_or_prov.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="res_district">District</label>
+                            {{ form.res_district(class="form-control", id="res_district") }}
+                            {% if form.res_district.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.res_district.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="visited">Visited Count</label>
+                            {{ form.visited(class="form-control", id="visited") }}
+                            {% if form.visited.errors %}
+                                <ul class="text-danger">
+                                    {% for error in form.visited.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create Restaurant</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Table to display added restaurants -->
+
+    <!-- Edit Restaurant Modal -->
+<div class="modal fade" id="editRestaurantModal" tabindex="-1" role="dialog" aria-labelledby="editRestaurantModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRestaurantModalLabel">Edit Restaurant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/edit-restaurant" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        <label for="rest_name">Restaurant Name</label>
+                        {{ form.rest_name(class="form-control", id="edit_rest_name") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        {{ form.description(class="form-control", id="edit_description") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        {{ form.email(class="form-control", id="edit_email") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password(class="form-control", id="edit_password") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="logo">Restaurant Logo</label>
+                        {{ form.logo(class="form-control-file", id="edit_logo") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="country_of_res">Country of Residence</label>
+                        {{ form.country_of_res(class="form-control", id="edit_country_of_res") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state_or_prov">State/Province</label>
+                        {{ form.state_or_prov(class="form-control", id="edit_state_or_prov") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="res_district">District</label>
+                        {{ form.res_district(class="form-control", id="edit_res_district") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="visited">Visited Count</label>
+                        {{ form.visited(class="form-control", id="edit_visited") }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Updated Restaurant Table with Edit Button -->
+
+    <h3 class="text-center">Added Restaurants</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Restaurant Name</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dummy data for restaurants -->
+            <tr>
+                <td>Gourmet Bistro</td>
+                <td>gourmet@example.com</td>
+                <td>USA</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editRestaurantModal" 
+                            onclick="populateEditModal('Gourmet Bistro', 'gourmet@example.com', 'USA', 'Sample description', 'gourmet.png', 123)">Edit</button>
+                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            <!-- More dummy data rows -->
+        </tbody>
+    </table>
+
+
+<script>
+    // Populate the edit modal with existing restaurant information
+    function populateEditModal(name, email, country, description, logo, visited) {
+        document.getElementById('edit_rest_name').value = name;
+        document.getElementById('edit_email').value = email;
+        document.getElementById('edit_country_of_res').value = country;
+        document.getElementById('edit_description').value = description;
+        document.getElementById('edit_logo').value = ''; // Logo is a file input
+        document.getElementById('edit_visited').value = visited;
+    }
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <footer class="header">
+        <h1>&copy;  Rights Reserved, MENUFIT FOOD - Restaurant Name</h1>
+    </footer>
+</body>
+</html>

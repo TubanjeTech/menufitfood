@@ -20,24 +20,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        /* Styling for 3D effect on tables */
-        .table-card {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(145deg, #e0e0e0, #ffffff);
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px #bebebe, -5px -5px 15px #ffffff;
+        .grid-container {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
             justify-content: center;
+        }
+        .table-card {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #ffffff, #d1d1d1);
+            border-radius: 10px;
+            box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+            text-align: center;
+            font-size: 20px;
             font-weight: bold;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: #555;
+            transform: perspective(500px) rotateX(5deg) rotateY(-5deg);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
         .table-card:hover {
-            transform: scale(1.05);
-            box-shadow: 8px 8px 20px #bebebe, -8px -8px 20px #ffffff;
+            transform: perspective(500px) rotateX(0deg) rotateY(0deg) translateY(-5px);
+            box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
         }
         /* Toggle button styling */
         .toggle-btn {
@@ -52,7 +59,14 @@
         .navbar-toggler {
             border: none;
         }
+      
+        .table-card { width: 100px; height: 100px; text-align: center; padding: 20px; }
+        .white { background-color: white; }
+        .green { background-color: green; color: white; }
+        .red { background-color: red; color: white; }
     </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+
 </head>
 <body >
 
@@ -122,7 +136,7 @@
     </section>
 
     <!-- Main Action Row -->
-    <section class="container my-4" style="margin-left: 43%;">
+    <!-- <section class="container my-4" style="margin-left: 43%;">
         <div class="row text-center">
             <div class="col-4 d-flex align-items-center justify-content-center">
                 <div style="height: 40px; width: 40px; background-color: #007bff; border-radius: 50px;">
@@ -131,22 +145,36 @@
                 <span class="ms-3"><i class="fas fa-artificial-intelligence"></i>Order AI</span>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Tables Display Section -->
-    <section class="container my-4">
-        <h3 class="text-center mb-4">Restaurant Tables</h3>
-        <div class="row gy-3" style="margin-left: 100px;">
-            <!-- Example table grid item -->
-            {% for table_number in range(1, 25) %}
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="table-card" onclick="selectTable({{ table_number }})">
-                    Table {{ table_number }}
-                </div>
+    <div class="grid-container">
+        {% for table in tables %}
+        <a href="{{ url_for('routes.smenu') }}?table_numbber={{ table_number }}" class="btn">
+            <div class="table-card">
+                Table {{ table }}
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        </a>
+        {% endfor %}
+    </div>
+
+
+     <!-- Action Buttons -->
+     <div class="action-buttons" style="display: flex; justify-content: center; gap: 15px; margin: 20px 0;">
+      <button class="light-pink-button" style="background-color: #ffccd5; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;">
+          <a href="/tkaw" style="text-decoration: none; color: #000;">Take Away Orders</a>
+      </button>
+      <button class="light-pink-button" style="background-color: #ffccd5; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;">
+          <a href="" style="text-decoration: none; color: #000;">Direct Order</a>
+      </button>
+      <button class="light-blue-button" style="background-color: #cce5ff; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;" data-toggle="modal" data-target="#modal1">
+          Room Orders
+      </button>
+      <button class="light-pink-button" style="background-color: #ffccd5; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;">
+          <a href="" style="text-decoration: none; color: #000;">Order Is Ready</a>
+      </button>
+  </div>
+  
 
     <!-- Footer -->
     <section style="margin-top: 20px;">
@@ -234,6 +262,11 @@
         function selectTable(tableNumber) {
             alert('Selected Table ' + tableNumber);
             // Here you can add more functionality, such as redirecting to an order page
+        }
+
+        function selectTable(tableNumber) {
+            // Redirect to the order-taking page with the selected table number
+            window.location.href = `/smenu?table_number=${tableNumber}`;
         }
     </script>
 

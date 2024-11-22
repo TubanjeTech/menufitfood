@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENUFITFOOD-Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <!-- Stylesheets -->
+    <style>
+        /* Centered content wrapper */
+.centered-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Language Selector */
+.language-selector {
+    margin-bottom: 20px;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tab-button:hover {
+    background-color: #0056b3;
+}
+
+/* Order Table */
+.order-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.order-table th, .order-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Extra Amount & Discount Form */
+.extras-form {
+    margin-bottom: 20px;
+}
+
+.extras-form .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.extras-form label {
+    width: 150px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.extras-form input, .extras-form select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 200px;
+}
+
+/* Button Styles */
+.blue-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.blue-button:hover {
+    background-color: #0056b3;
+}
+
+.light-pink-button {
+    background-color: #ffccd5;
+    color: #007bff;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.light-blue-button {
+    background-color: #cce5ff;
+    color: #007bff;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .tab-navigation {
+        flex-direction: column;
+    }
+
+    .order-table table, .extras-form input, .extras-form select {
+        width: 100%;
+    }
+
+    .centered-content {
+        padding: 15px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <header>
+        
+        <nav>
+            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" class="mlogo">
+            <a href="#">Home</a>
+            <a href="#popular">Popular Restaurants</a>
+            <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+            <a href="#">Docs</a>
+            <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+            <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+            <a href="{{ url_for('routes.slogin')}}">Staff</a>
+            <a><i class="fas fa-shopping-cart cart-icon"></i></a>
+        </nav>
+         <!-- Cart Icon -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i> <!-- Hamburger Icon -->
+        </div>
+    </header>
+    
+    <!-- Hamburger Menu -->
+    <div id="hamburger-menu" class="hamburger-menu" style="display: none;">
+      <a href="#">Home</a>
+      <a href="#popular">Popular Restaurants</a>
+      <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
+      <a href="#">Docs</a>
+      <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
+      <a href="{{ url_for('managers.mlogin') }}">Manager</a>
+      <a href="{{ url_for('routes.slogin')}}">Staff</a>
+    </div>
+
+    <div class="centered-content">
+        
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <label for="language">Select Language:</label>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="it">Italian</option>
+            </select>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button"><a href="{{ url_for('routes.alldishes')}}" style="color: #fff;">AVAILABLE</a></button>
+            <button class="tab-button"><a href="{{ url_for('routes.home')}}" style="color: #fff;">HOME</a></button>
+            <button class="tab-button"><a href="" style="color: #fff;">REPORT</a></button>
+            <button class="tab-button"><a href="{{ url_for('routes.tables')}}" style="color: #fff;">TABLES</a></button>
+            <button class="tab-button"><a href="{{ url_for('routes.cat')}}" style="color: #fff;">CATEGORIES</a></button>
+            <button class="tab-button" data-toggle="modal" data-target="#modal1">NEW DISH</button>
+            <button class="tab-button"><a href="{{ url_for('routes.expe')}}" style="color: #fff;">EXPENSES</a></button>
+        </div>
+        <!-- Order Table Section -->
+        <div class="order-table" >
+            <table>
+                <thead style="background-color: grey;">
+                    <tr>
+                        <th style="font-size: 16px;">ID</th>
+                        <th style="font-size: 16px;">STATUS</th>
+                        <th style="font-size: 16px;">DISH NAME</th>
+                        <th style="font-size: 16px;">PRICE</th>
+                        <th style="font-size: 16px;">EDIT</th>
+                        <th style="font-size: 16px;">CHANGE IMAGE</th>
+                        <th style="font-size: 16px;">AVAILABLE</th>
+                        <th style="font-size: 16px;">UNAVAILABLE</th>
+                        <th style="font-size: 16px;">DELETE DISH</th>
+                        <th style="font-size: 16px;">RECIPE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic content goes here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    
+    <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Add new dish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form method="POST">
+                    
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section>
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-row">
+        <!-- Quick Links -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Quick Links</h2>
+            <ul class="footer-links">
+              <li><a href="#" class="footer-link-item">About Us</a></li>
+              <li><a href="#" class="footer-link-item">Help</a></li>
+              <li><a href="#" class="footer-link-item">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Vacations -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h4 class="footer-subheading">Vacations:</h4>
+            <p class="footer-text">
+              <span>All Sundays</span><br>
+              <span>All Official Holidays</span>
+            </p>
+          </div>
+        </div>
+  
+        <!-- Location -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Location</h2>
+            <ul class="footer-contact">
+              <li><span class="footer-icon icon-map-marker"></span>Kigali - Rwanda</li>
+              <li><a href="tel:+250788274945"><span class="footer-icon icon-phone"></span>+250 788 274 945</a></li>
+              <li><a href="mailto:info@menufitfood.com"><span class="footer-icon icon-envelope"></span>info@menufitfood.com</a></li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Business Hours -->
+        <div class="footer-col">
+          <div class="footer-widget">
+            <h2 class="footer-heading">Business Hours</h2>
+            <p class="footer-text">
+              <span>Monday – Friday: 9am - 8pm</span><br>
+              <span>Saturday: 9am - 5pm</span>
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-row footer-bottom">
+        <hr class="footer-divider">
+        <p class="footer-copyright">
+          &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | MenuFitFood
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+</section>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('hamburger-menu');
+        menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const steps = document.querySelectorAll(".step");
+
+        function revealSteps() {
+            steps.forEach(step => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    step.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", revealSteps);
+    });
+
+</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</body>
+</html>

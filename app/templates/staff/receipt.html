@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .receipt-container {
+            width: 100%;
+            max-width: 80mm; /* Limit the width to 80mm */
+            padding: 5mm;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto; /* Ensures it is centered horizontally */
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 10mm;
+        }
+        .header img {
+            width: 40mm; /* Restaurant logo size */
+            height: auto;
+            margin-bottom: 5mm;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 16px;
+        }
+        .header p {
+            margin: 2mm 0;
+            font-size: 12px;
+        }
+        .order-details {
+            margin-bottom: 10mm;
+        }
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        .order-details td, .order-details th {
+            padding: 2mm;
+            font-size: 12px;
+            text-align: left;
+            border-bottom: 1px dashed #ccc;
+        }
+        .order-details th {
+            font-weight: bold;
+        }
+        .totals {
+            margin-top: 10mm;
+        }
+        .totals table {
+            width: 100%;
+            font-size: 12px;
+        }
+        .totals td, .totals th {
+            padding: 2mm;
+            text-align: left;
+        }
+        .totals th {
+            font-weight: bold;
+        }
+        .totals .total-row td {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 10mm;
+        }
+        .footer p {
+            font-size: 10px;
+            margin: 2mm 0;
+        }
+        .footer .qr-code {
+            width: 30mm;
+            height: 30mm;
+            margin-top: 5mm;
+        }
+        .footer .payment-method {
+            margin-top: 5mm;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        /* Print button */
+        .print-btn {
+            display: block;
+            margin: 10mm auto;
+            padding: 5mm;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Print Button -->
+    <button class="print-btn" onclick="window.print()">Print Receipt</button>
+
+    <div class="receipt-container" style="margin: 40px;">
+        <!-- Header with logo and restaurant info -->
+        <div class="header">
+            <img src="{{ url_for('static', filename='assets/logo.png')}}" alt="Restaurant Logo">
+            <h2>Restaurant Name</h2>
+            <p>Address: 123 Main St, City</p>
+            <p>Phone: (123) 456-7890</p>
+            <p>Date: 2024-11-12</p>
+            <p>Time: 18:30</p>
+        </div>
+
+        <!-- Order details -->
+        <div class="order-details">
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td>Cheeseburger</td>
+                    <td>2</td>
+                    <td>$10.00</td>
+                </tr>
+                <tr>
+                    <td>Fries</td>
+                    <td>1</td>
+                    <td>$3.00</td>
+                </tr>
+                <tr>
+                    <td>Soft Drink</td>
+                    <td>2</td>
+                    <td>$2.50</td>
+                </tr>
+                <tr>
+                    <td>Salad</td>
+                    <td>1</td>
+                    <td>$5.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Totals section -->
+        <div class="totals">
+            <table>
+                <tr>
+                    <th>Subtotal:</th>
+                    <td>$40.50</td>
+                </tr>
+                <tr>
+                    <th>Discount:</th>
+                    <td>-$5.00</td>
+                </tr>
+                <tr>
+                    <th>VAT (10%):</th>
+                    <td>$3.55</td>
+                </tr>
+                <tr class="total-row">
+                    <th>Total:</th>
+                    <td>$39.05</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer with QR Code and Payment Method -->
+        <div class="footer">
+            <div class="qr-code" style="margin: auto;">
+                <!-- QR code placeholder -->
+                <img src="{{url_for('static', filename='assets/qr.png')}}" alt="QR Code" style="width: 100%; height: auto;">
+            </div>
+            <p>Scan the QR code for your order details or to provide feedback.</p>
+            <p class="payment-method">Payment Method: Credit Card</p>
+            <p>Thank you for your purchase!</p>
+        </div>
+    </div>
+
+    <script>
+        // Print function triggered by the print button
+        function printReceipt() {
+            window.print();
+        }
+    </script>
+
+</body>
+</html>

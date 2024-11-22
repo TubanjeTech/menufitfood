@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff List</title>
+</head>
+<body>
+    <h1>Staff Members</h1>
+    <ul>
+        {% for member in staff %}
+            <li>
+                <strong>Name:</strong> {{ member.name }} <br>
+                <strong>Position:</strong> {{ member.position }} <br>
+                <strong>Email:</strong> {{ member.email }} <br>
+                <strong>Phone:</strong> {{ member.phone }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+</body>
+</html>

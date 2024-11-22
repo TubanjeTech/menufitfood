@@ -21,7 +21,6 @@
     <nav>
         <a href="#">Home</a>
         <a href="#popular">Popular Restaurants</a>
-        <a href="#offer-events">Events & Offers</a>
         <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
         <a href="#">Docs</a>
         <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
@@ -41,7 +40,6 @@
 <div id="hamburger-menu" class="hamburger-menu" style="display: none;">
   <a href="#">Home</a>
   <a href="#popular">Popular Restaurants</a>
-  <a href="#offer-events">Events & Offers</a>
   <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
   <a href="#">Docs</a>
   <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
@@ -382,127 +380,7 @@
   </div>
 </section>
 
-<section class="offers-events-section" id="offer-events" style="background-color: #39CCCC;">
-  <!-- Offers Carousel -->
-  <div class="carousel-row" style="margin: 20px;">
-    <div style="height: 20px;"></div>
-    <!-- <h2 class="section-title">Latest Offers</h2> -->
-    <h3 style="text-align: center; font-size: 2rem;"><b>Latest Offers</b></h3>
-    <div class="swiper offers-swiper">
-      <div class="swiper-wrapper">
-        <!-- Offer Item 1 -->
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/restaurant.png') }}" alt="Offer pic" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <div class="swiper-slide offer-item">
-          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Offer</button>
-        </div>
-        <!-- Add more offer items as needed -->
-      </div>
-      <!-- Pagination and navigation for Offers Carousel -->
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-    </div>
-  </div>
-  <div style="height: 10px; background-color: #fff;"></div>
-  <!-- Events Carousel -->
-  <div class="carousel-row" style="margin-top: 10px; margin-bottom: 20px;">
-    <!-- <h2 class="section-title">Upcoming Events</h2> -->
-    <div style="height: 20px;"></div>
-    <!-- <h2 class="section-title">Latest Offers</h2> -->
-    <h3 style="text-align: center; font-size: 2rem;"><b>Upcoming Events</b></h3>
-    <div class="swiper events-swiper">
-      <div class="swiper-wrapper">
-        <!-- Event Item 1 -->
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-6.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Sushi</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Pizza</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-7.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-11.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on African Meals</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-10.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Fresh Wine</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/restaurant.png') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on All ice Cream</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-9.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <div class="swiper-slide event-item">
-          <img src="{{ url_for('static', filename='assets/dish-8.jpg') }}" alt="Offer Image" class="carousel-image">
-          <h3 class="carousel-title">Special Discount on Italian Meals</h3>
-          <button class="carousel-button">View Event</button>
-        </div>
-        <!-- Add more event items as needed -->
-      </div>
-      <!-- Pagination and navigation for Events Carousel -->
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-    </div>
-  </div>
-</section>
+
 
 <section style="background-color: #001f3f;">
   <div>
@@ -620,55 +498,7 @@
     });
   });
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // Initialize Swiper for Offers
-    new Swiper('.offers-swiper', {
-      loop: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 1,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-      },
-    });
 
-    // Initialize Swiper for Events
-    new Swiper('.events-swiper', {
-      loop: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 1,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-      },
-    });
-  });
 
 
 </script>

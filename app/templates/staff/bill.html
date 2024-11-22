@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order & Bill Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center content vertically */
+            background-color: #f4f4f4;
+            box-sizing: border-box;
+        }
+        .receipt-container {
+            padding: 5mm;
+            width: 80mm; /* 80mm width for thermal printer */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow for the receipt */
+            text-align: center; /* Center text */
+        }
+
+        /* Header styles */
+        .header {
+            text-align: center;
+            margin-bottom: 5mm;
+        }
+        .header img {
+            width: 40mm; /* Adjust to fit logo */
+            height: auto;
+            margin-bottom: 3mm;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .header p {
+            margin: 1mm 0;
+            font-size: 12px;
+        }
+
+        /* Bill section styles */
+        .bill-section {
+            margin-top: 10mm;
+        }
+        .bill-section h3 {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5mm;
+            font-weight: bold;
+        }
+        .bill-details {
+            font-size: 12px;
+        }
+        .bill-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        .bill-details td, .bill-details th {
+            padding: 2mm;
+            text-align: left;
+            border-bottom: 1px dashed #ccc;
+            font-size: 12px;
+        }
+        .bill-details th {
+            font-weight: bold;
+        }
+        .total-row td {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Payment methods section */
+        .payment-methods {
+            font-size: 12px;
+            margin-top: 5mm;
+        }
+        .payment-methods p {
+            margin: 1mm 0;
+        }
+
+        /* Print button styles */
+        .print-btn {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            margin-top: 10mm;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bill Receipt -->
+    <div class="receipt-container">
+        <div class="bill-section">
+            <div class="header">
+                <img src="{{ url_for('static', filename='assets/logo.png')}}" alt="Restaurant Logo"> <!-- Replace with actual logo -->
+                <h2>Menu Fit Food Restaurant</h2>
+                <p>Address: 123 Main St, Malindi</p>
+                <p>Tel: (123) 456-7890</p>
+            </div>
+
+            <h3>BILL RECEIPT</h3>
+            <div class="bill-details">
+                <p>Date & Time: 2024-11-12 18:30</p>
+                <p>Table Number: 5</p>
+                <p>Waiter: John Doe</p>
+
+                <!-- Order List -->
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                    </tr>
+                    <tr>
+                        <td>Cheeseburger</td>
+                        <td>2</td>
+                        <td>$10.00</td>
+                    </tr>
+                    <tr>
+                        <td>Fries</td>
+                        <td>1</td>
+                        <td>$3.00</td>
+                    </tr>
+                    <tr>
+                        <td>Soft Drink</td>
+                        <td>2</td>
+                        <td>$2.50</td>
+                    </tr>
+                </table>
+
+                <!-- Total Price -->
+                <div class="total-row">
+                    <p>Total: $39.05</p>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <h4>Our Accepted Payment Methods:</h4>
+                <p>1. Credit Card</p>
+                <p>2. Cash</p>
+                <p>3. Mobile Payment (M-Pesa, PayPal, etc.)</p>
+            </div>
+
+            <!-- Print Button -->
+            <button class="print-btn" onclick="window.print()">Print Bill</button>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order & Bill Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height to center content vertically */
+            background-color: #f4f4f4;
+            box-sizing: border-box;
+        }
+        .receipt-container {
+            padding: 5mm;
+            width: 80mm; /* 80mm width for thermal printer */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow for the receipt */
+        }
+
+        /* Header styles */
+        .header {
+            text-align: center;
+            margin-bottom: 5mm;
+        }
+        .header img {
+            width: 40mm; /* Adjust to fit logo */
+            height: auto;
+            margin-bottom: 3mm;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .header p {
+            margin: 1mm 0;
+            font-size: 12px;
+        }
+
+        /* Order section styles */
+        .order-section {
+            margin-bottom: 10mm;
+        }
+        .order-section h3 {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5mm;
+            font-weight: bold;
+        }
+        .order-details {
+            font-size: 12px;
+        }
+        .order-details p {
+            margin: 1mm 0;
+        }
+
+        /* Item table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5mm;
+        }
+        .items-table th, .items-table td {
+            padding: 2mm;
+            text-align: left;
+            border-bottom: 1px dashed #ccc;
+            font-size: 12px;
+        }
+        .items-table th {
+            font-weight: bold;
+        }
+
+        /* Bill section styles */
+        .bill-section {
+            margin-top: 10mm;
+        }
+        .bill-section h3 {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5mm;
+            font-weight: bold;
+        }
+        .bill-details {
+            font-size: 12px;
+        }
+        .bill-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5mm;
+        }
+        .bill-details td, .bill-details th {
+            padding: 2mm;
+            text-align: left;
+            border-bottom: 1px dashed #ccc;
+            font-size: 12px;
+        }
+        .bill-details th {
+            font-weight: bold;
+        }
+        .total-row td {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Payment methods section */
+        .payment-methods {
+            font-size: 12px;
+            margin-top: 5mm;
+        }
+        .payment-methods p {
+            margin: 1mm 0;
+        }
+
+        /* Print button styles */
+        .print-btn {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            margin-top: 10mm;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Order Receipt -->
+    <div class="receipt-container">
+        <div class="order-section">
+            <div class="header">
+                <h2>Menu Fit Food Restaurant</h2>
+                <p>Address: 123 Main St, City</p>
+                <p>Tel: (123) 456-7890</p>
+            </div>
+
+            <h3>ORDER RECEIPT</h3>
+            <div class="order-details">
+                <p>Date & Time: 2024-11-12 18:30</p>
+                <p>Served by: John Doe</p>
+                <p>Table: 5</p>
+
+                <h4>Items:</h4>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Preferences</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cheeseburger</td>
+                            <td>2</td>
+                            <td>No Pickles</td>
+                        </tr>
+                        <tr>
+                            <td>Fries</td>
+                            <td>1</td>
+                            <td>Extra Crispy</td>
+                        </tr>
+                        <tr>
+                            <td>Soft Drink</td>
+                            <td>2</td>
+                            <td>Regular</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Print Button -->
+        <button class="print-btn" onclick="window.print()">Print Order</button>
+    </div>
+
+    <script>
+        // Function to trigger the print dialog
+        function printReceipt() {
+            window.print(); // Trigger print dialog
+        }
+    </script>
+
+</body>
+</html>
