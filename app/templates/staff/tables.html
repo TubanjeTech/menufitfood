@@ -150,7 +150,7 @@
     <!-- Tables Display Section -->
     <div class="grid-container">
         {% for table in tables %}
-        <a href="{{ url_for('routes.smenu') }}?table_numbber={{ table_number }}" class="btn">
+        <a href="{{ url_for('routes.smenu', table_number=table, staff_name=staff_name) }}" class="btn">
             <div class="table-card">
                 Table {{ table }}
             </div>

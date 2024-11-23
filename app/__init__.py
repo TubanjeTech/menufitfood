@@ -37,20 +37,18 @@ def create_app():
     # Import and setup login managers
     from .routesconf import setup_staff_login_manager
     # from .managerconf import setup_managers_login_manager
-    from .adminconf import setup_admin_login_manager
+    # from .adminconf import setup_admin_login_manager
 
     setup_staff_login_manager(app)
-    setup_admin_login_manager(app)
+    # setup_admin_login_manager(app)
     # setup_managers_login_manager(app)
 
     # Register blueprints
     from .routes import routes as main_blueprint
     from .managers import managers as manager_blueprint
-    from .admins import admins as admin_blueprint
 
     app.register_blueprint(main_blueprint)
     app.register_blueprint(manager_blueprint, url_prefix='/manager')
-    app.register_blueprint(admin_blueprint)
     
     from .models import Account, User, Restaurants, RestaurantType, RestaurantDetails, Assistance, Staff, Sales, Recipe, ReceiptPrinter, StoreLogs, Stock, Expenses, ReceiptLogs, Receipt, Proforma, Purchases, PaymentMode, Orders, NewOrder, Menues, Item
 

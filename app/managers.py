@@ -396,6 +396,23 @@ def edit_deps(department_id):
 
     return render_template('manager/edit_dep.html', form=form, department=department)
 
+@managers.route('/delete_dep/<int:department_id>', methods=['POST'])
+def delete_dep(department_id):
+    department = Departments.query.get_or_404(department_id)  # Get department or 404 error
+
+    try:
+        # Delete the department from the database
+        db.session.delete(department)
+        db.session.commit()
+
+        flash('Department deleted successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting department: {str(e)}', 'danger')
+
+    return redirect(url_for('managers.deps'))  # Redirect back to the department list
+
+
 @managers.route('/cat', methods=['GET', 'POST'])
 def cat():
     forms = AddCatForm()

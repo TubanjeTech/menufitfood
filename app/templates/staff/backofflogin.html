@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MENUFITFOOD-staff login page</title>
+    <title>MENUFITFOOD-manager login page</title>
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -70,22 +70,10 @@
     <div class="login-container">
 		<div style="margin: auto; background-color: aqua; width: 80px;height: 50px; padding: 4px; border: 2px solid #da1515; border-radius: 10px;">
 			<p><b style="color: #021527;">
-				<a href="/" style="text-decoration: none;">BACK HOME</a>
+				<a href="/" style="text-decoration: none;">HOME</a>
 			</b></p>
 		</div>
-		{% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div>
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">
-                {{ message }}
-                </div>
-            {% endfor %}
-            </div>
-        {% endif %}
-        {% endwith %}
-
-        <h2 style="color: #f0f0f0;">STAFF LOGIN</h2>
+        <h2 style="color: #f0f0f0;">LOGIN TO THE BACK OFFICE</h2>
 		<div class="background">
 			<img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" style="width: 200px; height: 5opx;">
 		</div>
@@ -104,6 +92,5 @@
             </div>
         </form>
     </div>
-
 </body>
 </html>

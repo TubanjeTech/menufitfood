@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
     role = db.Column(String(255), nullable=False)
     created_at = db.Column(DateTime, nullable=False, default=func.now())
 
-class Account(db.Model):
+class Account(db.Model, UserMixin):
     __tablename__ = 'account'
     
     id = db.Column(db.Integer, primary_key=True)  
@@ -131,7 +131,7 @@ class Departments(db.Model):
     # Relationship to Restaurants (many-to-one)
     restaurant = db.relationship('Restaurants', back_populates='departments')
 
-class Staff(db.Model):
+class Staff(db.Model, UserMixin):
     __tablename__ = 'staff'
     id = db.Column(db.Integer, primary_key=True)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)

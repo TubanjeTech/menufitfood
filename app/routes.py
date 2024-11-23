@@ -70,26 +70,27 @@ def contactUs():
 def slogin():
     form = StaffLoginForm()
     if form.validate_on_submit():
-        # Retrieve the staff member using the provided email
         staff = Staff.query.filter_by(email=form.email.data).first()
-        if staff:
-            # Check if the password matches
-            if check_password_hash(staff.password, form.password.data):
-                # Create a session for the logged-in staff
-                session['staff_id'] = staff.id
-                session['staff_name'] = staff.staff_name
-                session['rest_name'] = staff.restaurant.rest_name  # Assuming Staff model has a relationship with Restaurant
-
-                flash(f"Welcome {staff.staff_name}!", "success")
-                return redirect(url_for('routes.home'))
-            else:
-                flash('Invalid password. Please try again.', 'danger')
+        if staff and check_password_hash(staff.password, form.password.data):
+            # Use Flask-Login to log in the user
+            login_user(staff)
+            
+            # Store additional session data, if needed
+            session['rest_name'] = staff.restaurant.rest_name
+            
+            flash(f"Welcome {staff.staff_name}!", "success")
+            return redirect(url_for('routes.home'))
         else:
-            flash('No account found with this email.', 'danger')
+            flash('Invalid email or password.', 'danger')
     return render_template('staff/login.html', form=form)
 
+
 @routes.route('/slogout')
+@login_required
 def slogout():
+    # Logout the user
+    logout_user()
+    # Clear additional session data
     session.clear()
     flash('You have been logged out.', 'info')
     return redirect(url_for('routes.slogin'))
@@ -134,22 +135,24 @@ def smDashboard():
     return render_template('staff/storemanagerdash.html')
 
 @routes.route('/home')
+@login_required
 def home():
     form = BackOfficeLoginForm()
-    if 'staff_id' not in session:
-        flash('Please log in to access this page.', 'warning')
-        return redirect(url_for('managers.staff_login'))
     
-    # Fetch session details
-    staff_name = session.get('staff_name')
-    rest_name = session.get('rest_name')
+    # Use Flask-Login's `current_user`
+    staff = current_user.staff_name
+    rest_name = session.get('rest_name', 'Unknown Restaurant')
 
-    return render_template('staff/home.html', form=form, staff_name=staff_name, rest_name=rest_name)
+    return render_template('staff/home.html', form=form, staff=staff, rest_name=rest_name)
 
 @routes.route('/tables', methods=['POST', 'GET'])
+@login_required
 def tables():
     tables = [i + 1 for i in range(30)]
-    return render_template('staff/tables.html', tables=tables)
+     # Fetch staff name from the session
+    staff_name = session.get('staff_name', 'Unknown Staff')
+
+    return render_template('staff/tables.html', tables=tables, staff_name=staff_name)
 
 @routes.route('/staff')
 def staff_list():
@@ -158,14 +161,24 @@ def staff_list():
 
 
 @routes.route('/smenu', methods=['POST', 'GET'])
+@login_required
 def smenu():
-    table_number = request.args.get('table_number')
-    return render_template('staff/menu.html', table_number=table_number)
+    table_number = request.args.get('table_number')  # Get the table number from query parameters
+    staff_name = session.get('staff_name', 'Unknown Staff')
+
+    return render_template('staff/menu.html', table_number=table_number, staff_name=staff_name)
 
 @routes.route('/vieworder')
+@login_required
 def vieworder():
     form = BackOfficeLoginForm()
     return render_template('staff/vieworder.html', form=form)
+
+@routes.route('/backofflogin')
+@login_required
+def backofflogin():
+    form = BackOfficeLoginForm()
+    return render_template('staff/backofflogin.html', form=form)
 
 @routes.route('/neworder')
 def neworder():
