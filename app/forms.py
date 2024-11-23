@@ -206,9 +206,23 @@ class AddDepForm(FlaskForm):
         ('inactive', 'Inactive')
     ], validators=[DataRequired()])
     
-    submit = SubmitField('Add Department')
+    submit_dep = SubmitField('Add Department')
 
     def __init__(self, *args, **kwargs):
         super(AddDepForm, self).__init__(*args, **kwargs)
         # Populate restaurant_id choices
         self.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
+
+class EditDepForm(FlaskForm):
+
+    dep_name = StringField(
+        'Add Department Name', 
+        validators=[DataRequired(), Length(max=100)]
+    )
+
+    status = SelectField('Status', choices=[
+        ('active', 'Active'),
+        ('inactive', 'Inactive')
+    ], validators=[DataRequired()])
+    
+    submit_edt_dep = SubmitField('Edit Department')

@@ -90,6 +90,18 @@
             </ul>
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
 
     <!-- Modal for Adding Restaurant -->
     <div class="modal fade" id="adddepModal" tabindex="-1" role="dialog" aria-labelledby="adddepModalLabel" aria-hidden="true">
@@ -106,11 +118,20 @@
                     <form method="POST" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
                         <div>
+                            {{ form.restaurant_id.label }}: {{ form.restaurant_id(class="form-control") }}
+                        </div>
+
+                        <div>
                             {{ form.dep_name.label }}: {{ form.dep_name(class="form-control") }}
                         </div>
+
                         <div>
-                            {{ form.submit(class="btn btn-primary") }}
+                            {{ form.status.label }}: {{ form.status(class="form-control") }}
                         </div>
+                        <div>
+                            {{ form.submit_dep(class="btn btn-primary") }}
+                        </div>
+                    
                     </form>
                 </div>
             </div>
@@ -118,74 +139,33 @@
     </div>
 <!-- Table to display added restaurants -->
 
-    <!-- Edit Restaurant Modal -->
-<div class="modal fade" id="editDepModal" tabindex="-1" role="dialog" aria-labelledby="editDepModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editDepModalLabel">Edit Department</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
-                    {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.dep_name.label(class="form-label") }}
-                        {{ form.dep_name(class="form-control", value="John Doe") }}
-                    </div>
-                    
-                    <div class="text-end">
-                        {{ form.submit(class="btn btn-primary") }}
-                        <a href="" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Updated Restaurant Table with Edit Button -->
-
     <h3 class="text-center">Added Departments</h3>
-    <table class="table table-hover table-striped">
-        <thead class="table-dark">
+    <table class="table">
+        <thead>
             <tr>
-                <th>ID</th>
+                <th>Restaurant</th>
                 <th>Department Name</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Dummy Data -->
+            {% for department in departments %}
             <tr>
-                <td>1</td>
-                <td>John Doe</td>
+                <td>{{ department.restaurant.rest_name }}</td>
+                <td>{{ department.dep_name }}</td>
+                <td>{{ department.status }}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editDepModal" >Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                    <a href="{{ url_for('managers.edit_deps', department_id=department.id) }}" class="btn btn-warning">Edit</a>
+                    <!-- You can add a delete button here too -->
                 </td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editDepModal" >Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
+    
 
 
-<script>
-    // Populate the edit modal with existing restaurant information
-    function populateEditModal(dep_name) {
-        document.getElementById('edit_dep_name').value = name;
-    }
-</script>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

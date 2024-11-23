@@ -2,11 +2,11 @@ import os
 from flask import Blueprint, app, render_template, redirect, request, flash, current_app, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from app.models import Account, Dishes, MenuCategories, Restaurants, Staff
+from app.models import Account, Departments, Dishes, MenuCategories, Restaurants, Staff
 from . import db
-from .forms import (AddCatForm, AddDCatForm, AddDepartmentForm, CreateRestaurantForm,
-                    EditAccountForm, AccountForm, EditCattForm, EditDCattForm,
-                    EditDepartmentForm, EditRestaurantForm, EditStaffForm,
+from .forms import (AddCatForm, AddDCatForm, AddDepForm, CreateRestaurantForm,
+                    EditAccountForm, AccountForm, EditCattForm, EditDCattForm, EditDepForm,
+                    EditRestaurantForm, EditStaffForm,
                     SALoginForm, StaffForm)
 
 managers = Blueprint('managers', __name__)
@@ -347,9 +347,54 @@ def delete_staff(staff_id):
 
 @managers.route('/deps', methods=['GET', 'POST'])
 def deps():
-    forms = AddDepartmentForm()
-    form = EditDepartmentForm()
-    return render_template('manager/deps.html', form=form, forms=forms)
+    form = AddDepForm()
+    departments = Departments.query.join(Restaurants).all()
+
+    if form.validate_on_submit():
+        try:
+            # Create a new department instance
+            new_department = Departments(
+                restaurant_id=form.restaurant_id.data,
+                dep_name=form.dep_name.data,
+                status=form.status.data
+            )
+
+            # Add to the database
+            db.session.add(new_department)
+            db.session.commit()
+
+            flash('Department added successfully!', 'success')
+            return redirect(url_for('managers.deps'))  # Redirect to the department list (or relevant page)
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error adding department: {str(e)}', 'danger')
+
+    return render_template('manager/deps.html', form=form, departments=departments)
+
+
+@managers.route('/edit_deps/<int:department_id>', methods=['GET', 'POST'])
+def edit_deps(department_id):
+    department = Departments.query.get_or_404(department_id)  # Fetch department based on ID
+    form = EditDepForm(obj=department)  # Pre-populate form with existing data
+
+    if form.validate_on_submit():
+        try:
+            # Update the department's attributes
+            department.dep_name = form.dep_name.data
+            department.status = form.status.data # You can optionally allow the restaurant to be edited too
+
+            # Commit the changes to the database
+            db.session.commit()
+
+            flash('Department updated successfully!', 'success')
+            return redirect(url_for('managers.deps'))  # Redirect back to the department list
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error updating department: {str(e)}', 'danger')
+
+    return render_template('manager/edit_dep.html', form=form, department=department)
 
 @managers.route('/cat', methods=['GET', 'POST'])
 def cat():
