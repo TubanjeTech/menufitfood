@@ -138,19 +138,23 @@ def smDashboard():
 @login_required
 def home():
     form = BackOfficeLoginForm()
-    
-    # Use Flask-Login's `current_user`
-    staff = current_user.staff_name
+    staff_name = current_user.staff_name  # Accessing staff_name from current_user
     rest_name = session.get('rest_name', 'Unknown Restaurant')
 
-    return render_template('staff/home.html', form=form, staff=staff, rest_name=rest_name)
+    print(f"Staff name in /home route: {staff_name}")  # Debug: Confirm staff_name is available here
+
+    return render_template('staff/home.html', form=form, staff_name=staff_name, rest_name=rest_name)
+
+
 
 @routes.route('/tables', methods=['POST', 'GET'])
 @login_required
 def tables():
+    # Generate the list of tables
     tables = [i + 1 for i in range(30)]
-     # Fetch staff name from the session
-    staff_name = session.get('staff_name', 'Unknown Staff')
+
+    # Fetch the staff_name from the current_user object
+    staff_name = current_user.staff_name if hasattr(current_user, 'staff_name') else 'Unknown Staff'
 
     return render_template('staff/tables.html', tables=tables, staff_name=staff_name)
 
