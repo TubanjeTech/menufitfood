@@ -244,50 +244,85 @@ def delete_restaurant(restaurant_id):
 def staff():
     staff = Staff.query.all()
     form = StaffForm()
-    forms = EditStaffForm()
+
+    # Populate restaurant choices dynamically
+    form.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
 
     if form.validate_on_submit():
-        # Extract data from the form
-        restaurant_id = form.restaurant_id.data
-        staff_name = form.staff_name.data
-        email = form.email.data
-        staff_phone = form.staff_phone.data
-        password = form.password.data
-        status = form.status.data
-        role = form.role.data
-
-        # Hash the password
-        hashed_password = generate_password_hash(password)
-
-        # Create a new Staff instance
-        new_staff = Staff(
-            restaurant_id = restaurant_id,
-            staff_name = staff_name,
-            email = email,
-            staff_phone = staff_phone,
-            password=hashed_password,
-            status="Active",
-            role = role
-        )
-
-        # Save the new staff to the database
         try:
+            # Hash the password
+            hashed_password = generate_password_hash(form.password.data)
+
+            # Create new staff
+            new_staff = Staff(
+                restaurant_id=form.restaurant_id.data,
+                staff_name=form.staff_name.data,
+                email=form.email.data,
+                staff_phone=form.staff_phone.data,
+                password=hashed_password,
+                status=form.status.data,
+                role=form.role.data
+            )
             db.session.add(new_staff)
             db.session.commit()
+
             flash("Staff successfully created!", "success")
             return redirect(url_for('managers.mDashboard'))
-        
+
         except Exception as e:
             db.session.rollback()
-            flash(f"An error occurred: {str(e)}", "danger")
-    
-    return render_template('manager/staff.html', form=form, forms=forms, staff=staff)
+            flash(f"An error occurred: {e}", "danger")
+    else:
+        # Debug form errors if any
+        if form.errors:
+            print(form.errors)
+
+    return render_template('manager/staff.html', form=form, staff=staff)
+
 
 @managers.route('/edit_staff/<int:staff_id>', methods=['GET', 'POST'])
 def edit_staff(staff_id):
+    # Fetch staff by ID or return a 404 error if not found
     staff = Staff.query.get_or_404(staff_id)
-    form = EditStaffForm()
-    return render_template('manager/deps.html', form=form, staff=staff)
+    
+    # Pre-populate the form with staff data
+    form = EditStaffForm(obj=staff)
+    
+    if form.validate_on_submit():
+        try:
+            # Update staff fields with form data
+            staff.staff_name = form.staff_name.data
+            staff.email = form.email.data
+            staff.staff_phone = form.staff_phone.data
+            staff.status = form.status.data
+            staff.role = form.role.data
+            
+            # Update the password only if provided
+            if form.password.data.strip():
+                staff.password = generate_password_hash(form.password.data.strip())
+            
+            # Commit changes to the database
+            db.session.commit()
+            flash('Staff details updated successfully!', 'success')
+            return redirect(url_for('managers.staff'))  # Redirect to staff list
+
+        except Exception as e:
+            # Rollback changes in case of an error
+            db.session.rollback()
+            print(f"Error updating staff: {e}")
+            flash(f"An error occurred while updating staff: {str(e)}", 'danger')
+
+    elif request.method == 'GET':
+        # Pre-populate fields in GET request (redundant with `obj=staff`, but ensures full clarity)
+        form.staff_name.data = staff.staff_name
+        form.email.data = staff.email
+        form.staff_phone.data = staff.staff_phone
+        form.status.data = staff.status
+        form.role.data = staff.role
+
+    return render_template('manager/edit_staff.html', form=form, staff=staff)
+
+
 
 @managers.route('/delete_staff/<int:staff_id>', methods=['POST'])
 def delete_staff(staff_id):

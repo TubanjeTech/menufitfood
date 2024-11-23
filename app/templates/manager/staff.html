@@ -105,86 +105,52 @@
                     <!-- Form to create a restaurant -->
                     <form method="POST" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
-                        <div>
-                            {{ form.restaurant_id.label }}: {{ form.restaurant_id(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="restaurant_id">Restaurant Name</label>
+                            {{ form.restaurant_id(class="form-control") }}
                         </div>
-                        <div>
-                            {{ form.staff_name.label }}: {{ form.staff_name(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="staff_name">Staff Name</label>
+                            {{ form.staff_name(class="form-control", placeholder="Enter staff name") }}
                         </div>
-                        <div>
-                            {{ form.email.label }}: {{ form.email(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            {{ form.email(class="form-control", placeholder="Enter email") }}
                         </div>
-                        <div>
-                            {{ form.staff_phone.label }}: {{ form.staff_phone(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="staff_phone">Phone Number</label>
+                            {{ form.staff_phone(class="form-control", placeholder="Enter phone number") }}
                         </div>
-                        <div>
-                            {{ form.password.label }}: {{ form.password(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            {{ form.password(class="form-control", placeholder="Enter password") }}
                         </div>
-                        <div>
-                            {{ form.status.label }}: {{ form.status(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            {{ form.status(class="form-control") }}
                         </div>
-                        <div>
-                            {{ form.role.label }}: {{ form.role(class="form-control") }}
+                    
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            {{ form.role(class="form-control") }}
                         </div>
-                        <div>
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
+                    
+                        <button type="submit" class="btn btn-primary">Add Staff</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
     </div>
 <!-- Table to display added restaurants -->
 
-    <!-- Edit Restaurant Modal -->
-<div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editStaffModalLabel">Edit Restaurant</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
-                    {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.staff_name.label(class="form-label") }}
-                        {{ form.staff_name(class="form-control", value=staff.staff_name) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.email.label(class="form-label") }}
-                        {{ form.email(class="form-control", value=staff.email) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.staff_phone.label(class="form-label") }}
-                        {{ form.staff_phone(class="form-control", value=staff.staff_phone) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.password.label(class="form-label") }}
-                        {{ form.password(class="form-control") }}
-                        <small class="text-muted">Leave blank if you don't want to change the password.</small>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.status.label(class="form-label") }}
-                        {{ form.status(class="form-control", value=staff.status) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form.role.label(class="form-label") }}
-                        {{ form.role(class="form-control", value=staff.role) }}
-                    </div>
-                    <div class="text-end">
-                        {{ form.submit(class="btn btn-primary") }}
-                    </div>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
+   
 <!-- Updated Restaurant Table with Edit Button -->
 
     <h3 class="text-center">Added Staff</h3>
@@ -206,7 +172,7 @@
             <tr>
                 <td>{{ staff.id }}</td>
                 <td>{{ staff.staff_name }}</td>
-                <td>{{ staff.restaurant.name if staff.restaurant else 'No Restaurant Assigned' }}</td>
+                <td>{{ staff.restaurant.rest_name if staff.restaurant else 'No Restaurant Assigned' }}</td>
                 <td>{{ staff.email }}</td>
                 <td>{{ staff.staff_phone }}</td>
                 <td>{{ staff.status }}</td>

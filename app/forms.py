@@ -92,44 +92,25 @@ class EditRestaurantForm(FlaskForm):
     submit = SubmitField('Edit Restaurant')
 
 class StaffForm(FlaskForm):
-    
-    restaurant_id = SelectField('Select Restaurant', coerce=int, validators=[DataRequired()])
-
-    staff_name = StringField('Staff Name', validators=[
-        DataRequired(), Length(max=255)
-    ])
-    
-    
-    email = StringField('Email', validators=[
-        DataRequired(), Email(), Length(max=255)
-    ])
-
+    restaurant_id = SelectField('Restaurant Name', coerce=int, validators=[DataRequired()])
+    staff_name = StringField('Staff Name', validators=[DataRequired(), Length(max=255)])
+    email = StringField('Email', validators=[DataRequired(), Length(max=255)])
     staff_phone = StringField('Phone Number', validators=[
-        DataRequired(), Length(max=255),
-        Regexp(r'^\+?[1-9]\d{1,14}$', message="Invalid phone number format.")
+        DataRequired(), Length(max=255), Regexp(r'^\+?[1-9]\d{1,14}$', message="Invalid phone number format.")
     ])
-
-    password = PasswordField('Password', validators=[
-        DataRequired(), Length(min=6)
-    ])
-    
-    status = SelectField('Status', choices=[
-        ('active', 'Active'),
-        ('inactive', 'Inactive')
-    ], validators=[DataRequired()])
-
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    status = SelectField('Status', choices=[('active', 'Active'), ('inactive', 'Inactive')], validators=[DataRequired()])
     role = SelectField('Role', choices=[
         ('Stock_manager', 'Stock Manager'),
         ('waiter', 'Waiter'),
         ('cashier', 'Cashier')
     ], validators=[DataRequired()])
-
     submit = SubmitField('Add Staff')
 
     def __init__(self, *args, **kwargs):
         super(StaffForm, self).__init__(*args, **kwargs)
-        # Populate the restaurant options with all restaurants from the Restaurant model
-        self.restaurant_id.choices = [(restaurants.id, restaurants.rest_name) for restaurants in Restaurants.query.all()]
+        # Populate restaurant_id choices
+        self.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
 
 
 class EditStaffForm(FlaskForm):
@@ -140,11 +121,11 @@ class EditStaffForm(FlaskForm):
         DataRequired(), Email(), Length(max=255)
     ])
     staff_phone = StringField('Phone Number', validators=[
-        DataRequired(), Length(max=255),
+        DataRequired(), Length(max=15),
         Regexp(r'^\+?[1-9]\d{1,14}$', message="Invalid phone number format.")
     ])
     password = PasswordField('Password', validators=[
-        Length(min=6),  # Optional in edit form
+        Optional(), Length(min=6)  # Optional for editing
     ])
     status = SelectField('Status', choices=[
         ('active', 'Active'),
@@ -155,7 +136,8 @@ class EditStaffForm(FlaskForm):
         ('waiter', 'Waiter'),
         ('cashier', 'Cashier')
     ], validators=[DataRequired()])
-    submit = SubmitField('Edit Staff')
+    submit_edit = SubmitField('Edit Staff')
+
 
 class AddDepartmentForm(FlaskForm):
     dep_name = StringField(
