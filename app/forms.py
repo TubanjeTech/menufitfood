@@ -17,7 +17,7 @@ class SALoginForm(FlaskForm):
 class StaffLoginForm(FlaskForm):
     # email must be unique
     email = StringField('Enter Email to login', validators=[InputRequired()])
-    staff_code = PasswordField('Password', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[InputRequired()])
     submit = SubmitField('Login')
 
 class BackOfficeLoginForm(FlaskForm):

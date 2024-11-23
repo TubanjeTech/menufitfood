@@ -154,8 +154,7 @@
             <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
             <a href="#">Docs</a>
             <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
-            <a href="{{ url_for('managers.mlogin') }}">Manager</a>
-            <a href="{{ url_for('routes.slogin')}}">Staff</a>
+            <a href="{{ url_for('routes.slogout') }}">logout</a>
             <a><i class="fas fa-shopping-cart cart-icon"></i></a>
         </nav>
          <!-- Cart Icon -->
@@ -171,11 +170,15 @@
       <a href="{{ url_for('routes.aboutUs') }}">About Us</a>
       <a href="#">Docs</a>
       <a href="{{ url_for('routes.contactUs') }}">Contact Us</a>
-      <a href="{{ url_for('managers.mlogin') }}">Manager</a>
-      <a href="{{ url_for('routes.slogin')}}">Staff</a>
+      <a href="{{ url_for('routes.slogout') }}">logout</a>
     </div>
 
     <div class="centered-content">
+
+        <div class="welcome-message">
+            <h1>Hi, {{ staff_name }}!</h1>
+            <p>Welcome to {{ rest_name }}.</p>
+        </div>
         
         <!-- Language Selector -->
         <div class="language-selector">

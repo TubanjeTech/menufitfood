@@ -2,11 +2,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 import time
 import os
-from flask import Blueprint, current_app, render_template, redirect, request, session, url_for, flash, g
+from flask import Blueprint, current_app, jsonify, render_template, redirect, request, session, url_for, flash, g
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import Account, Staff
+from .models import Account, Restaurants, Staff
 from .forms import StaffLoginForm, NewOrderForm, BackOfficeLoginForm
 from . import db
 from flask_socketio import SocketIO, emit
@@ -32,9 +32,26 @@ scheduler = BackgroundScheduler()
 scheduler.add_job(check_inactive_accounts, 'interval', hours=24)  # Run every 24 hours
 scheduler.start()
 
+@routes.route('/load_more_restaurants', methods=['POST'])
+def load_more_restaurants():
+    offset = int(request.json.get('offset', 0))  # Offset to fetch more restaurants
+    limit = 6
+    restaurants = Restaurants.query.offset(offset).limit(limit).all()  # Fetch next set of restaurants
+    restaurants_data = [
+        {
+            "id": restaurant.id,
+            "name": restaurant.rest_name,
+            "description": restaurant.description,
+            "image_url": url_for('static', filename=restaurant.image_path)
+        }
+        for restaurant in restaurants
+    ]
+    return jsonify(restaurants=restaurants_data)
+
 @routes.route('/')
 def index():
-    return render_template('index.html')
+    restaurants = Restaurants.query.limit(6).all()  
+    return render_template('index.html', restaurants=restaurants)
 
 @routes.route('/about-us')
 def aboutUs():
@@ -48,12 +65,35 @@ def restaurants():
 def contactUs():
     return render_template('contact.html')
 
-@routes.route('/slogin')
+@routes.route('/slogin', methods=['GET', 'POST'])
 def slogin():
     form = StaffLoginForm()
+    if form.validate_on_submit():
+        # Retrieve the staff member using the provided email
+        staff = Staff.query.filter_by(email=form.email.data).first()
+        if staff:
+            # Check if the password matches
+            if check_password_hash(staff.password, form.password.data):
+                # Create a session for the logged-in staff
+                session['staff_id'] = staff.id
+                session['staff_name'] = staff.staff_name
+                session['rest_name'] = staff.restaurant.rest_name  # Assuming Staff model has a relationship with Restaurant
+
+                flash(f"Welcome {staff.staff_name}!", "success")
+                return redirect(url_for('routes.home'))
+            else:
+                flash('Invalid password. Please try again.', 'danger')
+        else:
+            flash('No account found with this email.', 'danger')
     return render_template('staff/login.html', form=form)
 
-@routes.route('/alogin')
+@routes.route('/slogout')
+def slogout():
+    session.clear()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('routes.slogin'))
+
+@routes.route('/alogin', methods=['GET', 'POST'])
 def alogin():
     form = BackOfficeLoginForm()
     if form.validate_on_submit():
@@ -95,7 +135,15 @@ def smDashboard():
 @routes.route('/home')
 def home():
     form = BackOfficeLoginForm()
-    return render_template('staff/home.html', form=form)
+    if 'staff_id' not in session:
+        flash('Please log in to access this page.', 'warning')
+        return redirect(url_for('managers.staff_login'))
+    
+    # Fetch session details
+    staff_name = session.get('staff_name')
+    rest_name = session.get('rest_name')
+
+    return render_template('staff/home.html', form=form, staff_name=staff_name, rest_name=rest_name)
 
 @routes.route('/tables', methods=['POST', 'GET'])
 def tables():

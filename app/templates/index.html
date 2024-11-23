@@ -137,8 +137,30 @@
   <h3 style="text-align: center; font-size: 2rem;"><b>Popular Restaurats Near You</b></h3>
 </section>
 
-
 <section>
+  <div class="card-list" id="restaurant-container">
+    {% for restaurant in restaurants %}
+    <a href="#" class="card-item">
+      <img src="{{ url_for('static', filename=restaurant.image_path) }}" alt="{{ restaurant.rest_name }}">
+      <span class="developer">{{ restaurant.rest_name }}</span>
+      <p>{{ restaurant.description }}</p>
+    </a>
+    {% endfor %}
+  </div>
+  <div style="justify-content: center; align-items: center; margin-left: 45%;">
+    <button 
+      id="load-more-btn"
+      style="margin-bottom: 10px; padding: 12px 24px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #001f3f; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;"
+      onmouseover="this.style.backgroundColor='#39CCCC'; this.style.transform='scale(1.05)';" 
+      onmouseout="this.style.backgroundColor='#001f3f'; this.style.transform='scale(1)';"
+    >
+      Load More
+    </button>
+  </div>
+</section>
+
+
+<!-- <section>
   <div class="card-list">
       <a href="#" class="card-item">
           <img src="{{ url_for('static', filename='assets/banner.jpg') }}"  alt="Educational and Informative Content">
@@ -194,7 +216,7 @@
       Load More
   </button>
   </div>
-</section>
+</section> -->
 
 
 <section class="about-section">
@@ -456,8 +478,40 @@
 
 
 
-
 <script>
+  let offset = 6; // Start with the first 6 restaurants
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  const restaurantContainer = document.getElementById('restaurant-container');
+
+  loadMoreBtn.addEventListener('click', async () => {
+    const response = await fetch('/load_more_restaurants', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ offset: offset })
+    });
+
+    const data = await response.json();
+    if (data.restaurants.length > 0) {
+      data.restaurants.forEach(restaurant => {
+        const restaurantCard = `
+          <a href="#" class="card-item">
+            <img src="${restaurant.image_url}" alt="${restaurant.name}">
+            <span class="developer">${restaurant.name}</span>
+            <p>${restaurant.description}</p>
+          </a>
+        `;
+        restaurantContainer.insertAdjacentHTML('beforeend', restaurantCard);
+      });
+      offset += data.restaurants.length; // Update offset
+    } else {
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.textContent = 'No More Restaurants';
+    }
+  });
+
+
     function toggleMenu() {
         const menu = document.getElementById('hamburger-menu');
         menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
