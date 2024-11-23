@@ -172,19 +172,22 @@ class AddDCatForm(FlaskForm):
         'Add Dish Category Name', 
         validators=[DataRequired(), Length(max=100)]
     )
-    icon = StringField(
-        'Add Dish Category Icon', 
-        validators=[DataRequired(), Length(max=100)]
-    )
+
+    restaurant_id = SelectField('Restaurant Name', coerce=int, validators=[DataRequired()])
+    
     submit = SubmitField('Add Dish Category')
+
+    def __init__(self, *args, **kwargs):
+        super(AddDCatForm, self).__init__(*args, **kwargs)
+        # Populate restaurant_id choices
+        self.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
+
+
 
 class EditDCattForm(FlaskForm):
     menu_categoryname = StringField(
         'Edit Dish Category Name', 
         validators=[DataRequired(), Length(max=100)]
     )
-    icon = StringField(
-        'Add Dish Category Icon', 
-        validators=[DataRequired(), Length(max=100)]
-    )
-    submit = SubmitField('Edit Dish Category')
+    
+    submit_dcat = SubmitField('Edit Dish Category')

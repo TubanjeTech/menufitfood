@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, app, render_template, redirect, request, flash, current_app, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from app.models import Account, Restaurants, Staff
+from app.models import Account, MenuCategories, Restaurants, Staff
 from . import db
 from .forms import (AddCatForm, AddDCatForm, AddDepartmentForm, CreateRestaurantForm,
                     EditAccountForm, AccountForm, EditCattForm, EditDCattForm,
@@ -138,6 +138,10 @@ def crudrest():
             # Store the relative path to the logo in the database
             logo_path = f'uploads/rest_images/{filename}'
 
+        else:
+            # Assign a default image if no profile image is provided
+            logo_path = 'uploads/rest6.jpg'
+
         # Handle file upload for restaurant profile image
         profile_image = form.restaurant_profile_image.data
         profile_image_path = None  # Default to None if no profile image is uploaded
@@ -153,6 +157,9 @@ def crudrest():
             
             # Store the relative path to the profile image in the database
             profile_image_path = f'uploads/rest_profile_images/{profile_filename}'
+        else:
+            # Assign a default image if no profile image is provided
+            profile_image_path = 'uploads/rest6.jpg'
 
         # Create a new restaurant entry in the database
         new_restaurant = Restaurants(
@@ -352,9 +359,66 @@ def cat():
 
 @managers.route('/dcat', methods=['GET', 'POST'])
 def dcat():
-    forms = AddDCatForm()
-    form = EditDCattForm()
-    return render_template('manager/dcat.html', form=form, forms=forms)
+    categories = MenuCategories.query.join(Restaurants).all()
+    form = AddDCatForm()
+
+    # Populate the restaurant choices dynamically
+    form.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
+
+    if form.validate_on_submit():
+        # Create a new menu category instance
+        new_category = MenuCategories(
+            menu_categoryname=form.menu_categoryname.data,
+            restaurant_id=form.restaurant_id.data
+        )
+        
+        # Add to the database
+        try:
+            db.session.add(new_category)
+            db.session.commit()
+            flash('Dish category added successfully!', 'success')
+            return redirect(url_for('managers.dcat'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error adding dish category. Please try again.', 'danger')
+            print(f"Error: {e}")
+    
+    return render_template('manager/dcat.html', form=form, categories=categories)
+
+@managers.route('/edit_dcat/<int:category_id>', methods=['GET', 'POST'])
+def dcatedit(category_id):
+    # Fetch the category based on the ID
+    category = MenuCategories.query.get_or_404(category_id)
+    
+    # Initialize the form and populate with existing data
+    form = EditDCattForm(obj=category)
+
+    if form.validate_on_submit():
+        # Update the category name with the form data
+        category.category_name = form.menu_categoryname.data
+        
+        # Commit the changes to the database
+        db.session.commit()
+        flash('Dish category updated successfully!', 'success')
+
+        # Redirect to a page (e.g., the list of categories)
+        return redirect(url_for('managers.dcat'))
+
+    return render_template('manager/edit_dcat.html', form=form, category=category)
+
+
+@managers.route('/delete_dcat/<int:category_id>', methods=['POST'])
+def delete_dcat(category_id):
+    category = Staff.query.get_or_404(category_id)
+    try:
+        db.session.delete(category)
+        db.session.commit()
+        flash('Category deleted successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error deleting category.', 'danger')
+    
+    return redirect(url_for('managers.dcat'))
 
 @managers.route('/manager-obr-report', methods=['GET', 'POST'])
 def lsd_obr_report():

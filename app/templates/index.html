@@ -141,8 +141,9 @@
   <div class="card-list" id="restaurant-container">
     {% for restaurant in restaurants %}
     <a href="#" class="card-item">
-      <img src="{{ url_for('static', filename=restaurant.image_path) }}" alt="{{ restaurant.rest_name }}">
-      <span class="developer">{{ restaurant.rest_name }}</span>
+      <img 
+    src="{{ url_for('static', filename=restaurant.restaurant_profile_image) if restaurant.restaurant_profile_image else url_for('static', filename='uploads/rest6.jpg') }}" 
+    alt="{{ restaurant.rest_name }}">      <span class="developer">{{ restaurant.rest_name }}</span>
       <p>{{ restaurant.description }}</p>
     </a>
     {% endfor %}
@@ -494,16 +495,17 @@
 
     const data = await response.json();
     if (data.restaurants.length > 0) {
-      data.restaurants.forEach(restaurant => {
-        const restaurantCard = `
-          <a href="#" class="card-item">
-            <img src="${restaurant.image_url}" alt="${restaurant.name}">
-            <span class="developer">${restaurant.name}</span>
-            <p>${restaurant.description}</p>
-          </a>
-        `;
-        restaurantContainer.insertAdjacentHTML('beforeend', restaurantCard);
-      });
+          data.restaurants.forEach(restaurant => {
+      const restaurantCard = `
+        <a href="#" class="card-item">
+          <img src="${restaurant.image_url}" alt="${restaurant.name}">
+          <span class="developer">${restaurant.name}</span>
+          <p>${restaurant.description}</p>
+        </a>
+      `;
+      restaurantContainer.insertAdjacentHTML('beforeend', restaurantCard);
+    });
+
       offset += data.restaurants.length; // Update offset
     } else {
       loadMoreBtn.disabled = true;

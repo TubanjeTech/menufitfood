@@ -12,7 +12,7 @@ migrate = Migrate()
 bcrypt = Bcrypt()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='/static')
     app.config['SECRET_KEY'] = '187199737472396ekm&&65782fyfvd87tg8g8w7tg8wgg8g44ujb987ybd09nghf12fhg34vv5hvhjj86vgcvg%&vgc8yvh8y7frd4xc8ltc'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:37472396@localhost/letsgomff'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

@@ -85,11 +85,23 @@
                 </li>
                 <!-- Add Restaurant link to open modal -->
                 <li class="nav-item">
-                    <a class="nav-link"data-toggle="modal" data-target="#addDcatModal">Add Categories</a>
+                    <a class="nav-link"data-toggle="modal" data-target="#addDcatModal">Add Dish Categories</a>
                 </li>
             </ul>
         </div>
     </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
 
     <!-- Modal for Adding Restaurant -->
     <div class="modal fade" id="addDcatModal" tabindex="-1" role="dialog" aria-labelledby="addDcatModalLabel" aria-hidden="true">
@@ -105,17 +117,17 @@
                     <!-- Form to create a restaurant -->
                     <form method="POST" enctype="multipart/form-data">
                         {{ form.hidden_tag() }}
+                    
                         <div>
                             {{ form.menu_categoryname.label(class="form-label") }}
                             {{ form.menu_categoryname(class="form-control") }}
                         </div>
-
-                        <div class="mb-3">
-                            {{ form.icon.label(class="form-label") }}
-                            {{ form.icon(class="form-control") }}
+                    
+                        <div>
+                            {{ form.restaurant_id.label(class="form-label") }}
+                            {{ form.restaurant_id(class="form-select") }}
                         </div>
-
-
+                    
                         <div>
                             {{ form.submit(class="btn btn-primary") }}
                         </div>
@@ -126,79 +138,40 @@
     </div>
 <!-- Table to display added restaurants -->
 
-    <!-- Edit Restaurant Modal -->
-<div class="modal fade" id="editDCatModal" tabindex="-1" role="dialog" aria-labelledby="editDCatModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editDCatModalLabel">Edit Dish Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
-                    {{ form.hidden_tag() }}
-                    <div class="mb-3">
-                        {{ form.menu_categoryname.label(class="form-label") }}
-                        {{ form. menu_categoryname(class="form-control") }}
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form.icon.label(class="form-label") }}
-                        {{ form.icon(class="form-control") }}
-                    </div>
-                    
-                    <div class="text-end">
-                        {{ form.submit(class="btn btn-primary") }}
-                        <a href="" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Updated Restaurant Table with Edit Button -->
 
-    <h3 class="text-center">Added Dish Categories/h3>
+    <h3 class="text-center">Added Dish Categories</h3>
     <table class="table table-hover table-striped">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Dish Category Name</th>
+                <th>Restaurant Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Dummy Data -->
+            {% for category in categories %}
             <tr>
-                <td>1</td>
-                <td>John Doe</td>
+                <td>{{ category.id }}</td>
+                <td>{{ category.menu_categoryname }}</td>
+                <td>{{ category.restaurant.rest_name }}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editDCatModal" >Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                    <a href="{{ url_for('managers.dcatedit', category_id=category.id) }}" class="btn btn-edit">Edit</a>
+                <form action="{{ url_for('managers.delete_dcat', category_id=category.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this restaurant?')">Delete</button>
+                </form>
+                 
                 </td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editDCatModal" >Edit</button>
-                    <button class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
+    
 
 
-<script>
-    // Populate the edit modal with existing restaurant information
-    function populateEditModal(dep_name) {
-        document.getElementById('edit_dep_name').value = name;
-    }
-</script>
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,0 +1,9 @@
+git init        
+git add .  
+git commit -m "Initial commit"
+git remote add origin https://github.com/TubanjeTech/mff-new-app.git
+
+
+git add .
+git commit -m "called data from storage"
+git push -u origin master

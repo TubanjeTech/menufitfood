@@ -34,15 +34,16 @@ scheduler.start()
 
 @routes.route('/load_more_restaurants', methods=['POST'])
 def load_more_restaurants():
-    offset = int(request.json.get('offset', 0))  # Offset to fetch more restaurants
+    offset = int(request.json.get('offset', 0))  # Offset for pagination
     limit = 6
-    restaurants = Restaurants.query.offset(offset).limit(limit).all()  # Fetch next set of restaurants
+    restaurants = Restaurants.query.offset(offset).limit(limit).all()  # Fetch restaurants with offset and limit
+    
     restaurants_data = [
         {
             "id": restaurant.id,
             "name": restaurant.rest_name,
             "description": restaurant.description,
-            "image_url": url_for('static', filename=restaurant.image_path)
+            "image_url": url_for('static', filename=restaurant.restaurant_profile_image)  # Reference the saved path
         }
         for restaurant in restaurants
     ]

@@ -66,11 +66,31 @@ class Restaurants(db.Model):
     visited = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
-    # Relationship to the Account model (Many-to-one: each restaurant belongs to one account)
+    # Relationship to the Account model
     account = db.relationship('Account', back_populates='restaurants')
 
-    # Relationship with Staff (one-to-many: one restaurant can have many staff members)
+    # Relationship with Staff
     staff = db.relationship('Staff', back_populates='restaurant', lazy=True)
+
+    menu_categories = db.relationship('MenuCategories', back_populates='restaurant', lazy=True)
+
+
+class MenuCategories(db.Model):
+    __tablename__ = 'menu_categories'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    menu_categoryname = db.Column(db.String(100), nullable=False)  # Number of times visited
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    visited = db.Column(db.Integer, nullable=False, default=0)
+    created_at = db.Column(db.DateTime, nullable=False, default=func.now())  
+
+    # Relationship to Dishes
+    dishes = db.relationship('Dishes', back_populates='menu_category')
+
+    # Relationships
+    restaurant = db.relationship('Restaurants', back_populates='menu_categories')  # Many-to-One with Restaurants
+    dishes = db.relationship('Dishes', back_populates='menu_category', lazy=True)
+
 
     
 class RestaurantType(db.Model):
@@ -116,7 +136,7 @@ class Staff(db.Model):
     role = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
 
-    # Add the relationship to the Restaurants model
+    # Relationship to the Restaurants model
     restaurant = db.relationship('Restaurants', back_populates='staff')
 
 
@@ -308,24 +328,13 @@ class Ingredients(db.Model):
     image = db.Column(db.String(100), nullable=False)  # Image of the ingredient
     created_at = db.Column(db.Integer, nullable=False)  # Timestamp when the ingredient was created
 
-class MenuCategories(db.Model):
-    __tablename__ = 'menu_categories'
-    id = db.Column(db.Integer, primary_key=True)
-    menu_categoryname = db.Column(db.String(100), nullable=False)  # Category name
-    icon = db.Column(db.String(30), nullable=False)  # Icon for the category
-    visited = db.Column(db.Integer, nullable=False, default=0)  # Number of times visited
-    restaurant = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)  # Foreign key to restaurants
-    created_at = db.Column(db.DateTime, nullable=False, default=func.now())  # Created at timestamp
-
-    # Relationships
-    dishes = db.relationship('Dishes', backref='menu_category', lazy=True)
 
 class Dishes(db.Model):
     __tablename__ = 'dishes'
     id = db.Column(db.Integer, primary_key=True)
     restaurant = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)  # Foreign key to restaurants
     dishes_name = db.Column(db.String(100), nullable=False)  # Name of the dish
-    menu_categories_id = db.Column(db.Integer, db.ForeignKey('menu_categories.id'), nullable=False)  # Foreign key to menu_categories
+    menu_category_id = db.Column(db.Integer, db.ForeignKey('menu_categories.id'), nullable=False)  # Foreign key to menu_categories
 
     # Enum for menu options
     menu_option = db.Column(Enum('takeaway', 'room', 'direct_table', name='menu_options_enum'), nullable=False)
@@ -338,5 +347,8 @@ class Dishes(db.Model):
     portion_size = db.Column(db.String(50), nullable=False)  # Portion size of the dish
     delivery_fee = db.Column(db.Integer, nullable=False)  # Delivery fee for the dish
     created_at = db.Column(db.DateTime, nullable=False, default=func.now()) 
+
+    # Relationship to MenuCategories
+    menu_category = db.relationship('MenuCategories', back_populates='dishes')
 
 
