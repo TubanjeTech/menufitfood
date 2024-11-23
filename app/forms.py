@@ -183,7 +183,6 @@ class AddDCatForm(FlaskForm):
         self.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]
 
 
-
 class EditDCattForm(FlaskForm):
     menu_categoryname = StringField(
         'Edit Dish Category Name', 
@@ -191,3 +190,25 @@ class EditDCattForm(FlaskForm):
     )
     
     submit_dcat = SubmitField('Edit Dish Category')
+
+
+class AddDepForm(FlaskForm):
+
+    restaurant_id = SelectField('Restaurant Name', coerce=int, validators=[DataRequired()])
+
+    dep_name = StringField(
+        'Add Department Name', 
+        validators=[DataRequired(), Length(max=100)]
+    )
+
+    status = SelectField('Status', choices=[
+        ('active', 'Active'),
+        ('inactive', 'Inactive')
+    ], validators=[DataRequired()])
+    
+    submit = SubmitField('Add Department')
+
+    def __init__(self, *args, **kwargs):
+        super(AddDepForm, self).__init__(*args, **kwargs)
+        # Populate restaurant_id choices
+        self.restaurant_id.choices = [(r.id, r.rest_name) for r in Restaurants.query.all()]

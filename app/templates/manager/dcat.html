@@ -142,6 +142,8 @@
 <!-- Updated Restaurant Table with Edit Button -->
 
     <h3 class="text-center">Added Dish Categories</h3>
+
+    
     <table class="table table-hover table-striped">
         <thead class="table-dark">
             <tr>
@@ -158,16 +160,14 @@
                 <td>{{ category.menu_categoryname }}</td>
                 <td>{{ category.restaurant.rest_name }}</td>
                 <td>
-                    <a href="{{ url_for('managers.dcatedit', category_id=category.id) }}" class="btn btn-edit">Edit</a>
-                <form action="{{ url_for('managers.delete_dcat', category_id=category.id) }}" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this restaurant?')">Delete</button>
-                </form>
-                 
+                    <a href="{{ url_for('managers.dcatedit', category_id=category.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ url_for('managers.delete_dcat', category_id=category.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    
     
 
 

@@ -74,6 +74,10 @@ class Restaurants(db.Model):
 
     menu_categories = db.relationship('MenuCategories', back_populates='restaurant', lazy=True)
 
+    # Relationship with Departments (one-to-many)
+    departments = db.relationship('Departments', back_populates='restaurant', lazy=True)
+
+
 
 class MenuCategories(db.Model):
     __tablename__ = 'menu_categories'
@@ -85,11 +89,11 @@ class MenuCategories(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=func.now())  
 
     # Relationship to Dishes
-    dishes = db.relationship('Dishes', back_populates='menu_category')
+    dishes = db.relationship('Dishes', back_populates='menu_category', lazy=True)
 
     # Relationships
     restaurant = db.relationship('Restaurants', back_populates='menu_categories')  # Many-to-One with Restaurants
-    dishes = db.relationship('Dishes', back_populates='menu_category', lazy=True)
+
 
 
     
@@ -123,6 +127,9 @@ class Departments(db.Model):
     dep_name = db.Column(String(100), nullable=False)
     status = db.Column(Text, nullable=False)
     created_at = db.Column(DateTime, nullable=False, default=func.now())
+
+    # Relationship to Restaurants (many-to-one)
+    restaurant = db.relationship('Restaurants', back_populates='departments')
 
 class Staff(db.Model):
     __tablename__ = 'staff'
@@ -335,10 +342,7 @@ class Dishes(db.Model):
     restaurant = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)  # Foreign key to restaurants
     dishes_name = db.Column(db.String(100), nullable=False)  # Name of the dish
     menu_category_id = db.Column(db.Integer, db.ForeignKey('menu_categories.id'), nullable=False)  # Foreign key to menu_categories
-
-    # Enum for menu options
     menu_option = db.Column(Enum('takeaway', 'room', 'direct_table', name='menu_options_enum'), nullable=False)
-
     price = db.Column(db.Integer, nullable=False)  # Price of the dish
     cost = db.Column(db.Integer, nullable=False)  # Cost of the dish
     description = db.Column(db.String(100), nullable=False)  # Description of the dish
@@ -348,7 +352,10 @@ class Dishes(db.Model):
     delivery_fee = db.Column(db.Integer, nullable=False)  # Delivery fee for the dish
     created_at = db.Column(db.DateTime, nullable=False, default=func.now()) 
 
-    # Relationship to MenuCategories
-    menu_category = db.relationship('MenuCategories', back_populates='dishes')
+    # Relationship to MenuCategories with cascade delete
+    menu_category = db.relationship('MenuCategories', back_populates='dishes', cascade='all, delete')
+
+
+
 
 

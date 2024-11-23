@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, app, render_template, redirect, request, flash, current_app, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
-from app.models import Account, MenuCategories, Restaurants, Staff
+from app.models import Account, Dishes, MenuCategories, Restaurants, Staff
 from . import db
 from .forms import (AddCatForm, AddDCatForm, AddDepartmentForm, CreateRestaurantForm,
                     EditAccountForm, AccountForm, EditCattForm, EditDCattForm,
@@ -394,31 +394,50 @@ def dcatedit(category_id):
     form = EditDCattForm(obj=category)
 
     if form.validate_on_submit():
-        # Update the category name with the form data
-        category.category_name = form.menu_categoryname.data
-        
-        # Commit the changes to the database
-        db.session.commit()
-        flash('Dish category updated successfully!', 'success')
+        try:
+            # Update the category name with the form data
+            category.menu_categoryname = form.menu_categoryname.data
+            
+            # Commit the changes to the database
+            db.session.commit()
+            flash('Dish category updated successfully!', 'success')
+            return redirect(url_for('managers.dcat'))  # Redirect to staff list
 
-        # Redirect to a page (e.g., the list of categories)
-        return redirect(url_for('managers.dcat'))
+        except Exception as e:
+            # Rollback changes in case of an error
+            db.session.rollback()
+            print(f"Error updating dish category: {e}")
+            flash(f"An error occurred while updating dish category: {str(e)}", 'danger')
+
+    elif request.method == 'GET':
+        # Pre-populate fields in GET request (redundant with `obj=staff`, but ensures full clarity)
+        form.menu_categoryname.data = category.menu_categoryname
 
     return render_template('manager/edit_dcat.html', form=form, category=category)
 
 
-@managers.route('/delete_dcat/<int:category_id>', methods=['POST'])
+@managers.route('/delete_dcat/<int:category_id>', methods=['GET', 'POST'])
 def delete_dcat(category_id):
-    category = Staff.query.get_or_404(category_id)
+    # Fetch the category based on the ID
+    category = MenuCategories.query.get_or_404(category_id)
+    
     try:
+        # Delete the category from the database
         db.session.delete(category)
         db.session.commit()
-        flash('Category deleted successfully!', 'success')
+
+        flash('Dish category deleted successfully!', 'success')
     except Exception as e:
+        # Rollback in case of an error
         db.session.rollback()
-        flash('Error deleting category.', 'danger')
-    
+        flash(f'Error deleting dish category. Please try again. Error: {str(e)}', 'danger')
+
+    # Redirect back to the dish category list
     return redirect(url_for('managers.dcat'))
+
+
+
+
 
 @managers.route('/manager-obr-report', methods=['GET', 'POST'])
 def lsd_obr_report():
